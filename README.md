@@ -1,3 +1,6 @@
+![D1](DiaryOfProgress/D1.png)
+
+
 Does repetitive tasks (Automation)
 
 Connect students (UDP)
