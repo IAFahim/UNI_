@@ -1,7 +1,7 @@
 package gui.core.button;
 
 import gui.core.button.util.GBData;
-import gui.main.util._Win;
+import gui.setup.util._Win;
 
 import javax.swing.*;
 import java.awt.*;

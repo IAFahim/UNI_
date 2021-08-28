@@ -1,5 +1,5 @@
-import gui.main.Display;
-import gui.main.util.GuiDataLoader;
+import gui.setup.Display;
+import gui.setup.util.GuiDataLoader;
 
 public class App {
     public static void main(String[] args) {

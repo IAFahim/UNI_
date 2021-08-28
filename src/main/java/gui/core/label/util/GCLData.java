@@ -1,8 +1,5 @@
 package gui.core.label.util;
 
-import gui.core.util.GData;
-import gui.main.util._Win;
-
 import javax.swing.*;
 import java.awt.*;
 

@@ -1,10 +1,10 @@
-package gui.main;
+package gui.setup;
 
 import gui.core.label.clickAble.PlayGroundLabel;
 import gui.core.label.clickAble.ShareLabel;
 import gui.core.util.GData;
-import gui.main.util.GuiDataLoader;
-import gui.main.util._Win;
+import gui.setup.util.GuiDataLoader;
+import gui.setup.util._Win;
 import gui.core.label.clickAble.DataLabel;
 import gui.core.panel.*;
 
@@ -82,16 +82,5 @@ public class Display implements Runnable {
         UIManager.put("ToolTip.background", new Color(255,255,255));
         UIManager.put("ToolTip.foreground", Color.BLACK);
         UIManager.put("ToolTip.font", new Font("Segoe UI",Font.PLAIN, GData.scaleY(12)));
-    }
-
-    private void addButton() {
-        Button button = new Button("Click meee");
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        frame.add(button);
     }
 }

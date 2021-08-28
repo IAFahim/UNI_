@@ -1,4 +1,4 @@
-package gui.main.util;
+package gui.setup.util;
 
 import file.json.Json;
 
@@ -19,14 +19,16 @@ public final class _Win {
     private static File file;
     private static boolean shouldSave=false;
 
-    public static void set(String title, int width, int height) {
+    public static void set(String title, int width, int height, boolean isFullScreen) {
         _Win.title = title;
         _Win.width = width;
         _Win.height = height;
+        _Win.isFullScreen=isFullScreen;
 
         map.put("title", title);
         map.put("width", width);
         map.put("height", height);
+        map.put("isFullScreen", isFullScreen);
     }
 
     public static void setSafe() {
@@ -50,6 +52,10 @@ public final class _Win {
     public static boolean load(File file) {
         _Win.file = file;
         return load();
+    }
+
+    public static void save(File file) {
+        Json.mapToJsonFile(map, file);
     }
 
     public static void save() {
@@ -107,5 +113,9 @@ public final class _Win {
 
     private static void setFont(String font) {
         _Win.font = font;
+    }
+
+    public static void setFile(File file) {
+        _Win.file = file;
     }
 }

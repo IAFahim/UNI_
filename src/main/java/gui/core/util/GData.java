@@ -1,6 +1,6 @@
 package gui.core.util;
 
-import gui.main.util._Win;
+import gui.setup.util._Win;
 
 import java.awt.*;
 

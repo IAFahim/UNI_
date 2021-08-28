@@ -1,4 +1,4 @@
-package gui.main.util;
+package gui.setup.util;
 
 import java.awt.*;
 import java.io.File;
@@ -8,18 +8,17 @@ import java.net.URL;
 public class GuiDataLoader {
 
     public GuiDataLoader() {
-        File file = new File("src\\com.uni\\java\\data\\db\\guiData.json");
+        File file = new File("src/main/java/data/db/guiData.json");
         if (!_Win.load(file)) {
-            firstLoad();
+            firstLoad(file);
         }
-
-
     }
 
-    public void firstLoad(){
+    public void firstLoad(File file){
         Dimension dimension;
         dimension = getScreenWindowSize();
-        _Win.set("Anonymous", (int) dimension.getWidth(), (int) dimension.getHeight());
+        _Win.set("Anonymous", (int) dimension.getWidth(), (int) dimension.getHeight(),true);
+        _Win.save(file);
     }
 
     public File getFile(String spec) {
