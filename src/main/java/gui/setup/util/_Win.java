@@ -5,8 +5,6 @@ import file.json.Json;
 import java.io.File;
 import java.util.LinkedHashMap;
 
-import static file.util.Cast.asBool;
-import static file.util.Cast.asInt;
 
 public final class _Win {
     private static int height;
@@ -41,9 +39,9 @@ public final class _Win {
         boolean exists=Json.jsonFileToMap(map, file);
         if(exists){
             _Win.title= (String)map.get("title");
-            _Win.width= asInt(map.get("width"));
-            _Win.height= asInt(map.get("height"));
-            _Win.isFullScreen= asBool(map.get("isFullScreen"));
+            _Win.width= (int) map.get("width");
+            _Win.height=(int)  map.get("height");
+            _Win.isFullScreen= (boolean) map.get("isFullScreen");
         }
         return exists;
 

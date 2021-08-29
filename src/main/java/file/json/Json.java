@@ -13,7 +13,31 @@ public final class Json {
         } else {
             int size = map.size(), at = 0;
             for (Object o : map.keySet()) {
-                sb.append('"').append(o).append('"').append(':').append('"').append(map.get(o)).append('"').append((size != ++at) ? ',' : '}');
+                sb.append('"').append(o).append('"').append(':');
+                if (!map.get(o).getClass().isArray()) {
+                    Object x=map.get(o);
+                    if (x instanceof Number) {
+                        sb.append(x);
+                    } else {
+                        sb.append('"').append(x).append('"');
+                    }
+                } else {
+                    sb.append('[');
+                    Object[] objects= (Object[]) map.get(o);
+                    int j=0,s=objects.length;
+                    for (int i = 0; i < objects.length; i++) {
+                        if (objects[i] instanceof Number) {
+                            sb.append(objects[i]);
+                        } else {
+                            sb.append('"').append(objects[i]).append('"');
+                        }
+                        if(s!=++j){
+                            sb.append(',');
+                        }
+                    }
+                    sb.append(']');
+                }
+                sb.append((size != ++at) ? ',' : '}');
             }
         }
         if (file != null)
@@ -26,16 +50,18 @@ public final class Json {
     }
 
     public static boolean jsonFileToMap(Map map, File file) {
-        boolean exist=file.isFile();
+        int read=0;
+        boolean exist = file.isFile();
         if (exist) {
             try (SimpleJsonFileReader sc = new SimpleJsonFileReader(file)) {
                 while (sc.hasNext) {
-                    map.put(sc.nextString(), sc.nextString());
+                    map.put(sc.nextString(), sc.nextObject());
+                    read++;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return exist;
+        return exist && read>0;
     }
 }

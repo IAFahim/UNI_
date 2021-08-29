@@ -1,6 +1,8 @@
 package file.json;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class SimpleJsonFileReader implements AutoCloseable {
     final private int BUFFER_SIZE = 1 << 16;
@@ -8,9 +10,13 @@ public class SimpleJsonFileReader implements AutoCloseable {
     private final byte[] buffer;
     private int bufferPointer, bytesRead;
     public boolean hasNext;
+    protected long size = 0;
+    private ArrayList<String> arrayList;
+    private boolean isInt;
 
     public SimpleJsonFileReader(File file) throws IOException {
-        hasNext = file.length() > 2;
+        size = file.length();
+        hasNext = size > 2;
         din = new DataInputStream(new FileInputStream(file.getPath()));
         buffer = new byte[BUFFER_SIZE];
         bufferPointer = bytesRead = 0;
@@ -27,12 +33,56 @@ public class SimpleJsonFileReader implements AutoCloseable {
         return new String(buf, 0, cnt);
     }
 
-    int c = -1;
+    public Object nextObject() throws IOException {
+        StringBuilder sb = next();
+        int n = sb.length();
 
-    public String nextString() throws IOException {
+        boolean isNull = n < 1;
+        if (isNull) {
+            return null;
+        }
+
+        int c = sb.charAt(0);
+        boolean isString = false;
+        isString = (c == '"');
+        if (isString) {
+            return sb.substring(1, n - 1);
+        }
+
+        boolean isBoolean = (c == 't' || c == 'f');
+        if (isBoolean) {
+            return c == 't';
+        }
+
+        boolean isArray = (c == '[');
+        if (isArray) {
+            arrayList = new ArrayList<String>();
+            arrayList.add(sb.substring(2, n - 1));
+            StringBuilder get = next();
+            while (get.charAt(get.length() - 1) != ']') {
+                arrayList.add(get.substring(1, get.length() - 1));
+                get = next();
+            }
+            arrayList.add(get.substring(1, get.length() - 2));
+            return arrayList;
+        }
+
+        double x = nextDouble(sb);
+        if (isInt) {
+            isInt = false;
+            if (x > Integer.MAX_VALUE || x < Integer.MIN_VALUE) {
+                return (long) x;
+            } else {
+                return (int) x;
+            }
+        }
+
+        return x;
+    }
+
+    private StringBuilder next() throws IOException {
+        int n = read();
         StringBuilder sb = new StringBuilder();
-        int n = (c != -1) ? c : read();
-        c = -1;
         while (isWhiteSpace(n)) {
             n = read();
         }
@@ -40,86 +90,48 @@ public class SimpleJsonFileReader implements AutoCloseable {
             sb.append((char) n);
             n = read();
         }
-        n = read();
-        if (n == -1) {
-            hasNext = false;
-        } else {
-            c = n;
+        hasNext = (size > 2);
+        return sb;
+    }
+
+    public String nextString() throws IOException {
+        int n = read();
+        StringBuilder sb = new StringBuilder();
+        while (isWhiteSpace(n)) {
+            n = read();
         }
-        int e = sb.length(), s = 0;
-        if (e > 2) {
-            if (sb.charAt(s) == '"') {
-                s = 1;
-            }
-            if (sb.charAt(e - 1) == '"') {
-                --e;
-            }
+        while (!isWhiteSpace(n)) {
+            sb.append((char) n);
+            n = read();
         }
-        return sb.substring(s, e);
-
+        hasNext = (size > 1);
+        return sb.substring(1, sb.length() - 1);
     }
 
-    private boolean isWhiteSpace(int n) {
-        return n == ' ' || n == ':' || n == ',' || n == '\n' || n == '\r' || n == -1 || n == '\t' || n == '{' || n == '}';
-    }
-
-    public int nextInt() throws IOException {
-        int ret = 0;
-        byte c = read();
-        while (c <= ' ')
-            c = read();
-        boolean neg = (c == '-');
-        if (neg)
-            c = read();
-        do {
-            ret = ret * 10 + c - '0';
-        } while ((c = read()) >= '0' && c <= '9');
-
-        if (neg)
-            return -ret;
-        return ret;
-    }
-
-    public long nextLong() throws IOException {
-        long ret = 0;
-        byte c = read();
-        while (c <= ' ')
-            c = read();
-        boolean neg = (c == '-');
-        if (neg)
-            c = read();
-        do {
-            ret = ret * 10 + c - '0';
-        }
-        while ((c = read()) >= '0' && c <= '9');
-        if (neg)
-            return -ret;
-        return ret;
-    }
-
-    public double nextDouble() throws IOException {
+    public double nextDouble(StringBuilder sb) throws IOException {
         double ret = 0, div = 1;
-        byte c = read();
-        while (c <= ' ')
-            c = read();
+        int i = 0, n = sb.length();
+        char c = sb.charAt(i);
         boolean neg = (c == '-');
         if (neg)
-            c = read();
-
+            c = sb.charAt(++i);
         do {
             ret = ret * 10 + c - '0';
         }
-        while ((c = read()) >= '0' && c <= '9');
-
-        if (c == '.') {
-            while ((c = read()) >= '0' && c <= '9') {
+        while (++i < n && (c = sb.charAt(i)) >= '0' && c <= '9');
+        isInt = !(c == '.');
+        if (!isInt) {
+            while (++i < n && (c = sb.charAt(i)) >= '0' && c <= '9') {
                 ret += (c - '0') / (div *= 10);
             }
         }
-
         if (neg)
             return -ret;
         return ret;
+    }
+
+    private boolean isWhiteSpace(int n) {
+        return n == ' ' || n == '\n' || n == '\r' || n == '\t' || n == '{' || n == '}' || n == ',' || n == ':';
     }
 
     private void fillBuffer() throws IOException {
@@ -129,6 +141,7 @@ public class SimpleJsonFileReader implements AutoCloseable {
     }
 
     private byte read() throws IOException {
+        size--;
         if (bufferPointer == bytesRead)
             fillBuffer();
         return buffer[bufferPointer++];
@@ -136,6 +149,8 @@ public class SimpleJsonFileReader implements AutoCloseable {
 
     @Override
     public void close() throws IOException {
+        if (din == null)
+            return;
         din.close();
     }
 }
