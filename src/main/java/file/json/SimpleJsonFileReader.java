@@ -2,7 +2,6 @@ package file.json;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class SimpleJsonFileReader implements AutoCloseable {
     final private int BUFFER_SIZE = 1 << 16;
@@ -11,7 +10,7 @@ public class SimpleJsonFileReader implements AutoCloseable {
     private int bufferPointer, bytesRead;
     public boolean hasNext;
     protected long size = 0;
-    private ArrayList<String> arrayList;
+    private ArrayList<Object> arrayList;
     private boolean isInt;
 
     public SimpleJsonFileReader(File file) throws IOException {
@@ -43,8 +42,7 @@ public class SimpleJsonFileReader implements AutoCloseable {
         }
 
         int c = sb.charAt(0);
-        boolean isString = false;
-        isString = (c == '"');
+        boolean isString = (c == '"');
         if (isString) {
             return sb.substring(1, n - 1);
         }
@@ -56,15 +54,25 @@ public class SimpleJsonFileReader implements AutoCloseable {
 
         boolean isArray = (c == '[');
         if (isArray) {
-            arrayList = new ArrayList<String>();
-            arrayList.add(sb.substring(2, n - 1));
-            StringBuilder get = next();
-            while (get.charAt(get.length() - 1) != ']') {
-                arrayList.add(get.substring(1, get.length() - 1));
-                get = next();
+            arrayList = new ArrayList<>();
+            if (n > 1) {
+                arrayList.add(sb.substring(2, n - 1));
             }
-            arrayList.add(get.substring(1, get.length() - 2));
+            Object get = nextObject();
+            while (!(get instanceof StringBuilder)) {
+                arrayList.add(get);
+                get = nextObject();
+            }
+            StringBuilder last = (StringBuilder) get;
+            if (last.length() > 1) {
+                arrayList.add(last.substring(1, last.length() - 2));
+            }
             return arrayList;
+        }
+
+        boolean isArrayEnd = (sb.charAt(sb.length() - 1) == ']');
+        if (isArrayEnd) {
+            return sb;
         }
 
         double x = nextDouble(sb);
@@ -79,6 +87,7 @@ public class SimpleJsonFileReader implements AutoCloseable {
 
         return x;
     }
+
 
     private StringBuilder next() throws IOException {
         int n = read();

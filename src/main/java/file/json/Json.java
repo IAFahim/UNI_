@@ -1,11 +1,12 @@
 package file.json;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Map;
 
 public final class Json {
 
-    public static void mapToJsonFile(Map<String, Object> map, File file) {
+    public static void saveJson(Map<String, Object> map, File file) {
         StringBuilder sb = new StringBuilder();
         sb.append('{');
         if (map == null || map.size() == 0) {
@@ -14,24 +15,24 @@ public final class Json {
             int size = map.size(), at = 0;
             for (Object o : map.keySet()) {
                 sb.append('"').append(o).append('"').append(':');
-                if (!map.get(o).getClass().isArray()) {
+                if (!(map.get(o) instanceof ArrayList)) {
                     Object x=map.get(o);
-                    if (x instanceof Number) {
+                    if (x instanceof Number || x instanceof Boolean) {
                         sb.append(x);
                     } else {
                         sb.append('"').append(x).append('"');
                     }
                 } else {
                     sb.append('[');
-                    Object[] objects= (Object[]) map.get(o);
-                    int j=0,s=objects.length;
-                    for (int i = 0; i < objects.length; i++) {
-                        if (objects[i] instanceof Number) {
-                            sb.append(objects[i]);
+                    ArrayList<Object> list= (ArrayList<Object>) map.get(o);
+                    int j=0,s=list.size();
+                    for (Object value : list) {
+                        if (value instanceof Number || value instanceof Boolean) {
+                            sb.append(value);
                         } else {
-                            sb.append('"').append(objects[i]).append('"');
+                            sb.append('"').append(value).append('"');
                         }
-                        if(s!=++j){
+                        if (s != ++j) {
                             sb.append(',');
                         }
                     }
@@ -41,7 +42,7 @@ public final class Json {
             }
         }
         if (file != null)
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file.getPath()))) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file.getPath()),sb.length())) {
                 bw.append(sb);
                 bw.flush();
             } catch (IOException e) {
@@ -49,7 +50,7 @@ public final class Json {
             }
     }
 
-    public static boolean jsonFileToMap(Map map, File file) {
+    public static boolean loadJson(File file,Map map) {
         int read=0;
         boolean exist = file.isFile();
         if (exist) {

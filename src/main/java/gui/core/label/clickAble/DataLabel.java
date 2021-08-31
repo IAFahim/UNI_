@@ -3,17 +3,19 @@ package gui.core.label.clickAble;
 import gui.core.label.util.GCLData;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 
 public class DataLabel extends GCLData {
     public DataLabel() {
+        label = new JLabel();
         text = "Data";
         order = 1;
-        init(171, 8, 88, 24);
-
     }
 
-    public void add(JPanel jPanel) {
+    public void add(JPanel jPanel, MouseListener mouseListener) {
         selected = true;
-        super.add(jPanel);
+        label.addMouseListener(mouseListener);
+        super.add(jPanel,171, 8, 88, 24);
     }
 }

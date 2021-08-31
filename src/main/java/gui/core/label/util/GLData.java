@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GLData extends GData {
-    protected JLabel label;
+    public JLabel label;
     protected String text;
     protected Font font;
 

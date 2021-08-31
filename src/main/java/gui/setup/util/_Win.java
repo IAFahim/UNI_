@@ -9,42 +9,33 @@ import java.util.LinkedHashMap;
 public final class _Win {
     private static int height;
     private static int width;
+
+
+
+    private static int bound;
+
     private static String title;
     private static boolean isFullScreen;
     private static final LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-    private static String font="Segoe UI";
+    private static String font = "Segoe UI";
+
 
     private static File file;
-    private static boolean shouldSave=false;
+    private static boolean shouldSave = false;
 
-    public static void set(String title, int width, int height, boolean isFullScreen) {
-        _Win.title = title;
-        _Win.width = width;
-        _Win.height = height;
-        _Win.isFullScreen=isFullScreen;
-
-        map.put("title", title);
-        map.put("width", width);
-        map.put("height", height);
-        map.put("isFullScreen", isFullScreen);
-    }
-
-    public static void setSafe() {
-        title = "SafeMode";
-        width = 640;
-        height = 480;
+    private static void getFromMap() {
+        _Win.title = (String) map.get("title");
+        _Win.width = (int) map.get("width");
+        _Win.height = (int) map.get("height");
+        _Win.isFullScreen = (boolean) map.get("isFullScreen");
     }
 
     public static boolean load() {
-        boolean exists=Json.jsonFileToMap(map, file);
-        if(exists){
-            _Win.title= (String)map.get("title");
-            _Win.width= (int) map.get("width");
-            _Win.height=(int)  map.get("height");
-            _Win.isFullScreen= (boolean) map.get("isFullScreen");
+        boolean exists = Json.loadJson(file, map);
+        if (exists) {
+            getFromMap();
         }
         return exists;
-
     }
 
     public static boolean load(File file) {
@@ -53,13 +44,12 @@ public final class _Win {
     }
 
     public static void save(File file) {
-        Json.mapToJsonFile(map, file);
+        Json.saveJson(map, file);
     }
 
     public static void save() {
-        Json.mapToJsonFile(map, file);
+        Json.saveJson(map, file);
     }
-
 
     public static int getHeight() {
         return height;
@@ -68,14 +58,6 @@ public final class _Win {
     public static void setHeight(int height) {
         _Win.height = height;
         put("height", height);
-    }
-
-    private static void put(String key, Object value) {
-        Object v = map.get(key);
-        shouldSave |= v != null && !v.equals(value);
-        if (shouldSave) {
-            map.put(key, height);
-        }
     }
 
     public static int getWidth() {
@@ -96,24 +78,57 @@ public final class _Win {
         put("title", title);
     }
 
-    public static boolean isFullScreen() {
+    public static boolean isIsFullScreen() {
         return isFullScreen;
     }
 
-    public static void setFullScreen(boolean fullScreen) {
-        isFullScreen = fullScreen;
+    public static void setIsFullScreen(boolean isFullScreen) {
+        _Win.isFullScreen = isFullScreen;
         put("isFullScreen", isFullScreen);
+    }
+
+    public static File getFile() {
+        return file;
     }
 
     public static String getFont() {
         return font;
     }
 
-    private static void setFont(String font) {
+    public static void setFont(String font) {
         _Win.font = font;
+        put("font",font);
     }
 
     public static void setFile(File file) {
         _Win.file = file;
+    }
+
+    public static int getBound() {
+        return bound;
+    }
+
+    public static void setBound(int bound) {
+        _Win.bound = bound;
+    }
+
+    public static boolean isShouldSave() {
+        return shouldSave;
+    }
+
+    public static void setShouldSave(boolean shouldSave) {
+        _Win.shouldSave = shouldSave;
+    }
+
+    private static void put(String key, Object value) {
+        Object v = map.get(key);
+        shouldSave |= ((v != null) && !v.equals(value));
+        map.put(key, value);
+    }
+
+    public static void setSafe() {
+        title = "SafeMode";
+        width = 640;
+        height = 480;
     }
 }

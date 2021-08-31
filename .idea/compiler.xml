@@ -10,4 +10,9 @@
       </profile>
     </annotationProcessing>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="UNI_" options="--add-exports java.desktop/sun.java2d=ALL-UNNAMED,UNI --add-exports java.base/jdk.internal.misc=UNI" />
+    </option>
+  </component>
 </project>

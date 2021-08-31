@@ -1,5 +1,7 @@
 package gui.setup.util;
 
+import sun.java2d.SunGraphicsEnvironment;
+
 import java.awt.*;
 import java.io.File;
 import java.net.MalformedURLException;
@@ -14,10 +16,14 @@ public class GuiDataLoader {
         }
     }
 
-    public void firstLoad(File file){
+    public void firstLoad(File file) {
         Dimension dimension;
         dimension = getScreenWindowSize();
-        _Win.set("Anonymous", (int) dimension.getWidth(), (int) dimension.getHeight(),true);
+        _Win.setTitle("Anonymous");
+        _Win.setWidth((int) dimension.getWidth());
+        _Win.setHeight((int) dimension.getHeight());
+        _Win.setIsFullScreen(true);
+        _Win.setFont("Segoe UI");
         _Win.save(file);
     }
 
@@ -36,12 +42,16 @@ public class GuiDataLoader {
         GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice[] graphicsDevices = graphicsEnvironment.getScreenDevices();
         Dimension d = new Dimension();
+        Taskbar taskbar=Taskbar.getTaskbar();
+        System.out.println(taskbar);
         for (GraphicsDevice graphicsDevice : graphicsDevices) {
+            Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(graphicsDevice.getConfigurations()[0]);
             if (d.width < graphicsDevice.getDisplayMode().getWidth()) {
-                d.width = graphicsDevice.getDisplayMode().getWidth();
-                d.height = graphicsDevice.getDisplayMode().getHeight();
+                d.width = graphicsDevice.getDisplayMode().getWidth() - (insets.left + insets.right);
+                d.height = graphicsDevice.getDisplayMode().getHeight() - (insets.top + insets.bottom);
             }
         }
+
         return d;
     }
 }
