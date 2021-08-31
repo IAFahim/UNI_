@@ -1,6 +1,5 @@
 package gui.setup.util;
 
-import sun.java2d.SunGraphicsEnvironment;
 
 import java.awt.*;
 import java.io.File;

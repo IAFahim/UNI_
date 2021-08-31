@@ -3,6 +3,7 @@ package gui.setup;
 import actions.AllItems;
 import gui.core.label.clickAble.PlayGroundLabel;
 import gui.core.label.clickAble.ShareLabel;
+import gui.core.layout.VerticalFlowLayout;
 import gui.core.textField.AllItemsTextField;
 import gui.core.util.GData;
 import gui.setup.util.GuiDataLoader;
@@ -80,6 +81,20 @@ public class Display implements Runnable, MouseListener {
         leftPanel.panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         leftPanel.add(frame);
         allItemsTextField.add(leftPanel.panel,this);
+        for (int i = 0; i < 20; i++) {
+            JButton jButton=new JButton("wow"+i);
+            jButton.addMouseListener(this);
+            jButton.setPreferredSize(new Dimension(leftPanel.panel.getWidth()-5, 40));
+            leftPanel.panel.add(jButton);
+        }
+        VerticalFlowLayout verticalFlowLayout=new VerticalFlowLayout();
+        verticalFlowLayout.setVgap(0);
+        verticalFlowLayout.setHgap(0);
+        leftPanel.panel.setLayout(verticalFlowLayout);
+        JScrollPane jScrollPane=new JScrollPane(leftPanel.panel,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane.setBounds(leftPanel.panel.getX(),leftPanel.panel.getX(),leftPanel.panel.getWidth(),leftPanel.panel.getHeight());
+        frame.add(jScrollPane);
+        allItemsTextField.textField.setFocusable(true);
     }
 
     private void frameSetup() {
@@ -91,9 +106,8 @@ public class Display implements Runnable, MouseListener {
         }
         frame.getContentPane().setBackground(new Color(228, 228, 228));
         frame.setLocationRelativeTo(null);
+        frame.setFocusable(true);
         frame.setLayout(null);
-
-        System.out.println(frame.getRootPane().getWidth());
     }
 
     private void tooltipSetup(){
@@ -105,12 +119,10 @@ public class Display implements Runnable, MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if(e.getSource()==allItemsTextField.textField){
-            allItemsTextField.textField.setFocusable(true);
             allItemsTextField.textField.setText("");
-        }if (e.getSource()==dataLabel.label){
-            dataLabel.label.setFocusable(true);
+        }else {
+            System.out.println(e.getSource());
         }
-        System.out.println(frame.getLocation());
     }
 
     @Override
@@ -120,7 +132,9 @@ public class Display implements Runnable, MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        if(e.getSource()==allItemsTextField.textField){
+            allItemsTextField.textField.setFocusable(true);
+        }
     }
 
     @Override
