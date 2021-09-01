@@ -9,7 +9,7 @@ import java.awt.*;
 public class RightPanel extends GPData {
     public RightPanel() {
         panel = new JPanel(null);
-        init(637, 47, 1280, 720);
+        init(636, 48, 1280, 720);
         color = new Color(255, 255, 255);
     }
 

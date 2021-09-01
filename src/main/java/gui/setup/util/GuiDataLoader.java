@@ -9,21 +9,19 @@ import java.net.URL;
 public class GuiDataLoader {
 
     public GuiDataLoader() {
-        File file = new File("src/main/java/data/db/guiData.json");
-        if (!_Win.load(file)) {
-            firstLoad(file);
+        if (!_Win.load()) {
+            firstLoad();
         }
     }
 
-    public void firstLoad(File file) {
+    public void firstLoad() {
         Dimension dimension;
         dimension = getScreenWindowSize();
         _Win.setTitle("Anonymous");
-        _Win.setWidth((int) dimension.getWidth());
-        _Win.setHeight((int) dimension.getHeight());
+        _Win.setRectangle(dimension.width/2,dimension.height/2,dimension.width,dimension.height);
         _Win.setIsFullScreen(true);
         _Win.setFont("Segoe UI");
-        _Win.save(file);
+        _Win.save();
     }
 
     public File getFile(String spec) {

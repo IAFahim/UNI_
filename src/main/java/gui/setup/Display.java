@@ -41,6 +41,9 @@ public class Display implements Runnable, MouseListener {
     public void run() {
         inti();
         start();
+        System.out.println(frame.getSize());
+        System.out.println(_Win.getWidth());
+        System.out.println(_Win.getHeight());
     }
 
     public void inti() {
@@ -67,6 +70,7 @@ public class Display implements Runnable, MouseListener {
         rightPanel.add(frame);
         descriptionPanel.add(frame);
         tooltipSetup();
+
         frame.setVisible(true);
     }
 
@@ -87,13 +91,13 @@ public class Display implements Runnable, MouseListener {
             jButton.setPreferredSize(new Dimension(leftPanel.panel.getWidth()-5, 40));
             leftPanel.panel.add(jButton);
         }
-        VerticalFlowLayout verticalFlowLayout=new VerticalFlowLayout();
-        verticalFlowLayout.setVgap(0);
-        verticalFlowLayout.setHgap(0);
-        leftPanel.panel.setLayout(verticalFlowLayout);
-        JScrollPane jScrollPane=new JScrollPane(leftPanel.panel,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane.setBounds(leftPanel.panel.getX(),leftPanel.panel.getX(),leftPanel.panel.getWidth(),leftPanel.panel.getHeight());
-        frame.add(jScrollPane);
+//        VerticalFlowLayout verticalFlowLayout=new VerticalFlowLayout();
+//        verticalFlowLayout.setVgap(0);
+//        verticalFlowLayout.setHgap(0);
+//        leftPanel.panel.setLayout(verticalFlowLayout);
+//        JScrollPane jScrollPane=new JScrollPane(leftPanel.panel,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+//        jScrollPane.setBounds(leftPanel.panel.getX(),leftPanel.panel.getX(),leftPanel.panel.getWidth(),leftPanel.panel.getHeight());
+//        frame.add(jScrollPane);
         allItemsTextField.textField.setFocusable(true);
     }
 

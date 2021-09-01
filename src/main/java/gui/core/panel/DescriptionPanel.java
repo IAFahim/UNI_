@@ -8,7 +8,7 @@ import java.awt.*;
 public class DescriptionPanel extends GPData {
     public DescriptionPanel() {
         panel = new JPanel(null);
-        init(637, 772, 1280, 310);
+        init(636, 772, 1280, 310);
         color = new Color(255, 255, 255);
     }
 
