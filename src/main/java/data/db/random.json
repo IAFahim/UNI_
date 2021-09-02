@@ -1,0 +1,50 @@
+{
+  "GetFolderFilesByZoneResult": [
+    {
+      "ID": 98748,
+      "CreatedBy": "",
+      "UpdatedBy": "none",
+      "CreatedDate": "\/Date(1308273033620+0100)\/",
+      "UpdatedDate": "\/Date(1308303003770+0100)\/",
+      "CommentCount": 0,
+      "Key": "",
+      "Enabled": true,
+      "MimeType": "video",
+      "Votes": 2,
+      "TotalRating": 0,
+      "AllowComments": true,
+      "ViewCount": 323,
+      "ReleaseDate": "\/Date(1308273000000+0100)\/",
+      "ExpireDate": "\/Date(4102444800000+0000)\/",
+      "Author": "",
+      "Size": 133799936,
+      "Tag1": "",
+      "Tag2": "",
+      "Tag3": "",
+      "RecycleBin": false
+    },
+    {
+      "ID": 99107,
+      "CreatedBy": "",
+      "UpdatedBy": "none",
+      "CreatedDate": "\/Date(1308583412520+0100)\/",
+      "UpdatedDate": "\/Date(1308583564007+0100)\/",
+      "CommentCount": 0,
+      "Key": "",
+      "Enabled": true,
+      "MimeType": "video",
+      "Votes": 0,
+      "TotalRating": 0,
+      "AllowComments": true,
+      "ViewCount": 33,
+      "ReleaseDate": "\/Date(1308583380000+0100)\/",
+      "ExpireDate": "\/Date(4102444800000+0000)\/",
+      "Author": "",
+      "Size": 47955968,
+      "Tag1": "",
+      "Tag2": "",
+      "Tag3": "",
+      "RecycleBin": false
+    }
+  ]
+}
