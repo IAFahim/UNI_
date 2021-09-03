@@ -1,21 +1,26 @@
 package gui.core.label.clickAble;
 
-import gui.core.label.util.GCLData;
+import gui.util._Win;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
+import java.awt.*;
 
-public class PlayGroundLabel extends GCLData {
+public class PlayGroundLabel extends JLabel {
+    protected String shortcutText;
+    protected Color color;
+    protected Color unSelectedColor;
+    public boolean selected;
+    public int order;
+
+
     public PlayGroundLabel() {
-        label = new JLabel();
-        text = "Play Ground";
+        setLayout(null);
+        setText("Play Ground");
         order = 2;
-    }
-
-    public void add(JPanel jPanel, MouseListener mouseListener) {
-        selected = false;
-        label.addMouseListener(mouseListener);
-        super.add(jPanel,261, 8, 150, 24);
+        setPreferredSize(_Win.init(88, 24));
+        setBackground(color = new Color(119, 199, 199));
+        shortcutText = "Data (Alt + " + order + ")";
+        setToolTipText(shortcutText);
+        setForeground(selected ? color : unSelectedColor);
     }
 }

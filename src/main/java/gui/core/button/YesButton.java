@@ -1,22 +1,19 @@
 package gui.core.button;
 
-import gui.core.button.util.GBData;
-import gui.setup.util._Win;
+import gui.util._Win;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class YesButton extends GBData {
+import static gui.util._Win.scaleY;
+
+public class YesButton extends JButton {
 
     public YesButton(){
-        text="Yes";
-        init(94.5,54.5,112,43);
-        color=new Color(42, 151, 238);
-        font=new Font(_Win.getFont(),Font.BOLD,scaleY(24));
-        fontColor=Color.WHITE;
-    }
-
-    public void add(JFrame jFrame) {
-        super.add(jFrame);
+        setText("Yes");
+        _Win.init(112,43);
+        setBackground(new Color(42, 151, 238));
+        setFont(new Font(_Win.getFont(),Font.BOLD,scaleY(24)));
+        setForeground(Color.WHITE);
     }
 }

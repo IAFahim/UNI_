@@ -1,18 +1,12 @@
 package gui.core.panel;
 
-import gui.core.panel.util.GPData;
-
 import javax.swing.*;
 import java.awt.*;
 
-public class SidePanel extends GPData {
+public class SidePanel extends JPanel {
     public SidePanel() {
-        panel = new JPanel(null);
-        init(0, 46, 50, 1036);
-        color = new Color(255, 255, 255);
-    }
-
-    public void add(JFrame jFrame) {
-        super.add(jFrame);
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+        setBackground(new Color(255, 255, 255));
     }
 }

@@ -1,20 +1,16 @@
 package gui.core.textField;
 
-import gui.core.textField.util.GTData;
+import gui.util._Win;
 
 import javax.swing.*;
-import java.awt.event.MouseListener;
 
-public class AllItemsTextField extends GTData {
+public class AllItemsTextField extends JTextField {
+    String text;
     public AllItemsTextField(){
-        textField=new JTextField();
         text="All items";
+        setText("All items");
+        setBorder(null);
+        setPreferredSize(_Win.init(111.5,217.24));
     }
 
-    public void add(JPanel jPanel, MouseListener mouseListener) {
-        textField.addMouseListener(mouseListener);
-        textField.setBorder(null);
-        textField.setFocusable(false);
-        super.add(jPanel,150.5,111.5, 217,24);
-    }
 }

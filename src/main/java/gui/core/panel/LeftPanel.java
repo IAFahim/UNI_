@@ -1,19 +1,15 @@
 package gui.core.panel;
 
-import gui.core.panel.util.GPData;
-import gui.core.util.GData;
+import gui.util._Win;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class LeftPanel extends GPData {
+public class LeftPanel extends JPanel {
     public LeftPanel() {
-        panel = new JPanel(null);
-        init(67, 91, 562, 990);
-        color = new Color(255, 255, 255);
-    }
-
-    public void add(JFrame jFrame) {
-        super.add(jFrame);
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+        setPreferredSize(_Win.init(454,1036));
+        setBackground(new Color(255, 255, 255));
     }
 }

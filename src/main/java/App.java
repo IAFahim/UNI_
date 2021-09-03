@@ -1,10 +1,11 @@
-import gui.setup.Display;
-import gui.setup.util.GuiDataLoader;
+import gui.Display;
+import gui.util.GuiDataLoader;
 
 public class App {
     public static void main(String[] args) {
         long start=System.currentTimeMillis();
-        Display window=new Display(new GuiDataLoader());
+        new GuiDataLoader();
+        new Display();
         System.out.println(System.currentTimeMillis()-start);
     }
 }

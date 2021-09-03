@@ -1,11 +1,11 @@
-package gui.setup.util;
+package gui.util;
 
 import data.Json;
 import org.json.simple.JSONObject;
 
+import java.awt.*;
 import java.io.File;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 
 public final class _Win {
@@ -133,5 +133,27 @@ public final class _Win {
         Object v=map.get(key);
         shouldSave |= ((v != null) && !v.equals(value));
         map.put(key, value);
+    }
+
+
+    static double xFix=1920;
+    static double yFix=1080;
+
+    public static Dimension init(double width, double height) {
+        return new Dimension(scaleX(width),scaleY(height));
+    }
+
+    public static int scaleX(double x) {
+        if (x != 0) {
+            return (int) ((_Win.height * (x / xFix)));
+        }
+        return 0;
+    }
+
+    public static int scaleY(double y) {
+        if (y != 0) {
+            return (int) ((_Win.getWidth() * (y / yFix)));
+        }
+        return 0;
     }
 }

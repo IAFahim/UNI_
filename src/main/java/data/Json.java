@@ -5,10 +5,10 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
-import java.util.HashMap;
 import java.util.Map;
 
 public final class Json {
+    private static final JSONParser jsonParser = new JSONParser();
 
     public static boolean save(JSONObject jsonObject, File file) {
         BufferedWriter bufferedWriter = null;
@@ -31,12 +31,12 @@ public final class Json {
         return true;
     }
 
+
     public static boolean load(File file, JSONObject map) {
-        boolean exist = file.isFile() && file.length()<4;
+        boolean exist = file.isFile() && file.length() < 4;
         if (!exist) {
             return false;
         }
-        JSONParser jsonParser=new JSONParser();
         BufferedReader bufferedReader = null;
         try {
             map.putAll((Map) jsonParser.parse(new BufferedReader(new FileReader(file))));
@@ -46,13 +46,12 @@ public final class Json {
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         } finally {
-            if (bufferedReader != null) {
+            if (bufferedReader != null)
                 try {
                     bufferedReader.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
         }
         return true;
     }

@@ -1,21 +1,26 @@
 package gui.core.label.clickAble;
 
-import gui.core.label.util.GCLData;
+import gui.util._Win;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
+import java.awt.*;
 
-public class DataLabel extends GCLData {
+public class DataLabel extends JLabel {
+    protected String shortcutText;
+    protected Color color;
+    protected Color unSelectedColor;
+    public boolean selected;
+    public int order;
+
+
     public DataLabel() {
-        label = new JLabel();
-        text = "Data";
+        setLayout(null);
+        setText("Data");
         order = 1;
-    }
-
-    public void add(JPanel jPanel, MouseListener mouseListener) {
-        selected = true;
-        label.addMouseListener(mouseListener);
-        super.add(jPanel,171, 8, 88, 24);
+        setPreferredSize(_Win.init(88, 24));
+        setBackground(color = new Color(119, 199, 199));
+        shortcutText = "Data (Alt + " + order + ")";
+        setToolTipText(shortcutText);
+        setForeground(selected ? color : unSelectedColor);
     }
 }

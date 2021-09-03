@@ -1,20 +1,26 @@
 package gui.core.label.clickAble;
 
-import gui.core.label.util.GCLData;
+import gui.util._Win;
 
 import javax.swing.*;
-import java.awt.event.MouseListener;
+import java.awt.*;
 
-public class ShareLabel extends GCLData {
+public class ShareLabel extends JLabel {
+    protected String shortcutText;
+    protected Color color;
+    protected Color unSelectedColor;
+    public boolean selected;
+    public int order;
+
+
     public ShareLabel() {
-        label=new JLabel();
-        text = "Share";
+        setLayout(null);
+        setText("Share");
         order = 3;
-    }
-
-    public void add(JPanel jPanel, MouseListener mouseListener) {
-        selected = false;
-        label.addMouseListener(mouseListener);
-        super.add(jPanel,413, 8, 88, 24);
+        setPreferredSize(_Win.init(88, 24));
+        setBackground(color = new Color(119, 199, 199));
+        shortcutText = "Data (Alt + " + order + ")";
+        setToolTipText(shortcutText);
+        setForeground(selected ? color : unSelectedColor);
     }
 }
