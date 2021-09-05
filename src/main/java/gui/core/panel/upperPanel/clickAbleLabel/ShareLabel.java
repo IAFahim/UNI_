@@ -4,11 +4,12 @@ import gui.util._Win;
 
 import javax.swing.*;
 
-public class ShareLabel extends JLabel {
+public class ShareLabel {
+    public JLabel label;
     public ShareLabel(boolean selected) {
-        setLayout(null);
-        setText("Share");
-        setForeground(selected ? _Win.selected_color_for_label : _Win.unSelected_color_for_label);
-        setToolTipText(getText() + " (Alt + " + 2 + ")");
+        label=new JLabel("Share");
+        label.setLayout(null);
+        label.setForeground(selected ? _Win.selected_color_for_label : _Win.unSelected_color_for_label);
+        label.setToolTipText(label.getText() + " (Alt + " + 2 + ")");
     }
 }

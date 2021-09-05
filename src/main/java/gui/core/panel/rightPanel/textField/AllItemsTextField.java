@@ -3,6 +3,7 @@ package gui.core.panel.rightPanel.textField;
 import gui.util._Win;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class AllItemsTextField extends JTextField {
     String text;
@@ -10,6 +11,6 @@ public class AllItemsTextField extends JTextField {
         text="All items";
         setText("All items");
         setBorder(null);
-        setPreferredSize(_Win.init(111.5,217.24));
+        setPreferredSize(new Dimension(111,217));
     }
 }

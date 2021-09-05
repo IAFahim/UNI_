@@ -6,14 +6,14 @@ import gui.util._Win;
 import javax.swing.*;
 import java.awt.*;
 
-public class RightPanel extends JPanel {
-
+public class RightPanel {
+    public JPanel panel;
     public RightPanel() {
-        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        setBorder(BorderFactory.createEmptyBorder(2, 4, 0, 0));
-        setPreferredSize(_Win.init(306,1135));
-        setMinimumSize(_Win.init(200,300));
-        setBackground(_Win.light_mode_color_panel_backGround);
+        panel=new JPanel(new BorderLayout());
+        panel.setBorder(BorderFactory.createEmptyBorder(2, 2, 0, 0));
+        panel.setPreferredSize(new Dimension(271,1135));
+        panel.setMinimumSize(new Dimension(200,300));
+        panel.setBackground(_Win.light_mode_color_panel_backGround);
     }
 
 }

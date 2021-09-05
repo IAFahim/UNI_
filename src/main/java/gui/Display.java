@@ -19,10 +19,10 @@ public final class Display implements Runnable {
     public static LeftPanel leftPanel;
     public static CenterPanel centerPanel;
     public static RightPanel rightPanel;
-    public static JPanel panel=new JPanel();
+    public static JPanel panel = new JPanel();
 
     public void setPanel() {
-        panel=new JPanel(new BorderLayout());
+        panel = new JPanel(new BorderLayout());
         panel.setBackground(Color.black);
         panel.setMinimumSize(panel.getMinimumSize());
 
@@ -30,18 +30,18 @@ public final class Display implements Runnable {
     }
 
     private void setLeft() {
-        leftPanel=new LeftPanel();
+        leftPanel = new LeftPanel();
         panel.add(leftPanel.panel, BorderLayout.WEST);
     }
 
     private void setRight() {
         rightPanel = new RightPanel();
-        panel.add(rightPanel, BorderLayout.EAST);
+        panel.add(rightPanel.panel, BorderLayout.EAST);
     }
 
     private void setCenter() {
         centerPanel = new CenterPanel();
-        panel.add(centerPanel, BorderLayout.CENTER);
+        panel.add(centerPanel.panel, BorderLayout.CENTER);
     }
 
     private void setTop() {
@@ -71,24 +71,37 @@ public final class Display implements Runnable {
     }
 
     private void tooltipSetup() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
         UIManager.put("ToolTip.background", Color.white);
         UIManager.put("ToolTip.foreground", Color.BLACK);
-        UIManager.put("ToolTip.font", new Font(_Win.getFont(), Font.PLAIN, _Win.scaleY(12)));
+        UIManager.put("ToolTip.font", new Font(_Win.getFont(), Font.PLAIN, 12));
     }
 
 
     public void setFrame() {
         frame = new JFrame(_Win.getTitle());
         frame.setMinimumSize(_Win.getMinimumSize());
-        frame.setPreferredSize(_Win.init(800,800));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
 
     public void start() {
         panel.setOpaque(true);
         frame.setContentPane(panel);
-        frame.pack();
+        if (_Win.isIsFullScreen()) {
+            frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        } else {
+            frame.setSize(new Dimension(_Win.getWidth(), _Win.getHeight()));
+            frame.setPreferredSize(new Dimension(1280, 720));
+            frame.setLocation(_Win.getX(), _Win.getY());
+
+        }
         frame.setVisible(true);
+        _Win.checkToSave(frame);
     }
 
 }

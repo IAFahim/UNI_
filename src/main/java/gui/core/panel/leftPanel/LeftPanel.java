@@ -1,14 +1,13 @@
 package gui.core.panel.leftPanel;
 
 import gui.core.layout.VerticalFlowLayout;
-import gui.core.panel.leftPanel.threePartPanel.IconTextAreaIconPanel;
+import gui.core.panel.leftPanel.threePartPanel.IconTextFieldIconPanel;
 import gui.core.panel.leftPanel.threePartPanel.IconTextFieldIconIconIconPanel;
 import gui.core.panel.leftPanel.tools.WebScrapperLabel;
 import gui.util._Win;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 public class LeftPanel {
@@ -17,7 +16,7 @@ public class LeftPanel {
     public JPanel panel_right;
     public JPanel panel_right_down;
     public WebScrapperLabel webScrapperLabel;
-    public IconTextAreaIconPanel threePartPanel;
+    public IconTextFieldIconPanel threePartPanel;
 
     public LeftPanel() {
         panel=new JPanel();
@@ -25,8 +24,8 @@ public class LeftPanel {
         setPanel_left();
         setPanel_right();
         panel.setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
-        panel.setPreferredSize(_Win.init(310, 1035));
-        panel.setMinimumSize(_Win.init(190, 300));
+        panel.setPreferredSize(new Dimension(310, 1035));
+        panel.setMinimumSize(new Dimension(190, 300));
         panel.setBackground(_Win.light_mode_color_frame_backGround);
     }
 
@@ -35,14 +34,14 @@ public class LeftPanel {
         panel_left = new JPanel(new BorderLayout());
         panel_left.setBackground(_Win.light_mode_color_panel_backGround);
         panel_left.add(webScrapperLabel, BorderLayout.PAGE_START);
-        panel_left.setPreferredSize(_Win.init(50, 1036));
+        panel_left.setPreferredSize(new Dimension(50, 1036));
         panel.add(panel_left, BorderLayout.WEST);
     }
 
     private void setPanel_right() {
         panel_right = new JPanel(new BorderLayout());
         panel_right.setBackground(_Win.light_mode_color_panel_backGround);
-        panel_right.setPreferredSize(_Win.init(310, 1035));
+        panel_right.setPreferredSize(new Dimension(310, 1035));
         panel_left.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 2));
         setPanel_right_up();
         setPanel_right_down();
@@ -50,8 +49,8 @@ public class LeftPanel {
     }
 
     private void setPanel_right_up() {
-        threePartPanel = new IconTextAreaIconPanel();
-        panel_right.add(threePartPanel, BorderLayout.PAGE_START);
+        threePartPanel = new IconTextFieldIconPanel();
+        panel_right.add(threePartPanel.panel, BorderLayout.PAGE_START);
     }
     public ArrayList<IconTextFieldIconIconIconPanel> button;
     private void setPanel_right_down() {

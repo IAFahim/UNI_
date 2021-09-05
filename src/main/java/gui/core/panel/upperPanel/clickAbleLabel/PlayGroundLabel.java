@@ -4,11 +4,12 @@ import gui.util._Win;
 
 import javax.swing.*;
 
-public class PlayGroundLabel extends JLabel {
+public class PlayGroundLabel {
+    public JLabel label;
     public PlayGroundLabel(boolean selected) {
-        setLayout(null);
-        setText("Play Ground");
-        setForeground(selected ? _Win.selected_color_for_label : _Win.unSelected_color_for_label);
-        setToolTipText(getText() + " (Alt + " + 1 + ")");
+        label=new JLabel("Play Ground");
+        label.setLayout(null);
+        label.setForeground(selected ? _Win.selected_color_for_label : _Win.unSelected_color_for_label);
+        label.setToolTipText(label.getText() + " (Alt + " + 1 + ")");
     }
 }

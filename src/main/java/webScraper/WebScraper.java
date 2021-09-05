@@ -9,6 +9,20 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 
 public class WebScraper {
-    Connection connect=Jsoup.connect("https://bn.wikipedia.org/wiki/%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE_%E0%A6%AD%E0%A6%BE%E0%A6%B7%E0%A6%BE");
+    public static void main(String[] args) {
+    Connection connect=Jsoup.connect(
+            "");
+        try {
+            Document document= connect.get();
+            Elements elements=document.getElementsByTag("a");
+            for (Element e :elements) {
+                System.out.println(e.attr("href"));
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

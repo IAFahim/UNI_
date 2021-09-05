@@ -24,7 +24,7 @@ public class IconTextFieldIconIconIconPanel {
         flowLayout.setHgap(0);
         flowLayout.setVgap(0);
 
-        panel.setSize(_Win.init(310,38));
+        panel.setSize(new Dimension(310,38));
 //        panel.setPreferredSize(_Win.init(300,38));
         panel.setBackground(light_mode_color_panel_backGround);
         setType();
@@ -38,7 +38,7 @@ public class IconTextFieldIconIconIconPanel {
         type = new JLabel();
         ImageIcon ii= new ImageIcon("src/main/resources/ic_keyboard_16.png");
         type.setIcon(ii);
-        Border margin = new EmptyBorder(0, 0,0,_Win.scaleX(5));
+        Border margin = new EmptyBorder(0, 0,0, (5));
         type.setBorder(margin);
         type.setToolTipText( "Rename (F2)");
         panel.add(type);
@@ -47,10 +47,10 @@ public class IconTextFieldIconIconIconPanel {
     public void setTextField() {
         textField = new JTextField("None");
 //        textField.setSize(init(150,40));
-        textField.setPreferredSize(init(125,40));
+        textField.setPreferredSize(new Dimension(125,40));
         textField.setBorder(null);
         textField.setBackground(light_mode_color_panel_backGround);
-        textField.setFont(new Font(_Win.getFont(), Font.PLAIN, scaleY(14)));
+        textField.setFont(new Font(_Win.getFont(), Font.PLAIN, (14)));
         panel.add(textField);
     }
 
@@ -58,7 +58,7 @@ public class IconTextFieldIconIconIconPanel {
         export = new JLabel();
         ImageIcon ii= new ImageIcon("src/main/resources/ic_export_16.png");
         export.setIcon(ii);
-        Border margin = new EmptyBorder(0, _Win.scaleX(5),0,0);
+        Border margin = new EmptyBorder(0, (5),0,0);
         export.setBorder(margin);
         export.setToolTipText( "Export (Shift + E)");
         panel.add(export);
@@ -68,7 +68,7 @@ public class IconTextFieldIconIconIconPanel {
         delete = new JLabel();
         ImageIcon ii= new ImageIcon("src/main/resources/ic_delete_16.png");
         delete.setIcon(ii);
-        Border margin = new EmptyBorder(0, _Win.scaleX(5),0,0);
+        Border margin = new EmptyBorder(0, (5),0,0);
         delete.setBorder(margin);
         delete.setToolTipText("Delete (Del)");
         panel.add(delete,BorderLayout.EAST);
@@ -78,7 +78,7 @@ public class IconTextFieldIconIconIconPanel {
         disable = new JLabel();
         ImageIcon ii= new ImageIcon("src/main/resources/ic_disable_16.png");
         disable.setIcon(ii);
-        Border margin = new EmptyBorder(0, _Win.scaleX(5),0,_Win.scaleX(20));
+        Border margin = new EmptyBorder(0, (5),0,(20));
         disable.setBorder(margin);
         disable.setToolTipText("Disable (Ctrl + D)");
         panel.add(disable,BorderLayout.EAST);
