@@ -1,4 +1,4 @@
-package gui.core.textField;
+package gui.core.panel.rightPanel.textField;
 
 import gui.util._Win;
 
@@ -12,5 +12,4 @@ public class AllItemsTextField extends JTextField {
         setBorder(null);
         setPreferredSize(_Win.init(111.5,217.24));
     }
-
 }

@@ -1,9 +1,9 @@
 package gui;
 
-import gui.core.panel.LeftPanel;
+import gui.core.panel.leftPanel.LeftPanel;
 import gui.core.panel.CenterPanel;
-import gui.core.panel.RightPanel;
-import gui.core.panel.UpperPanel;
+import gui.core.panel.rightPanel.RightPanel;
+import gui.core.panel.upperPanel.UpperPanel;
 import gui.util._Win;
 
 import javax.swing.*;
@@ -13,66 +13,47 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class Display extends JPanel implements Runnable, MouseListener, ActionListener {
-    private JFrame frame;
-    private UpperPanel upperPanel;
-    private LeftPanel leftPanel;
-    private CenterPanel centerPanel;
-    private RightPanel rightPanel;
+public final class Display implements Runnable {
+    public static JFrame frame;
+    public static UpperPanel upperPanel;
+    public static LeftPanel leftPanel;
+    public static CenterPanel centerPanel;
+    public static RightPanel rightPanel;
+    public static JPanel panel=new JPanel();
 
     public void setPanel() {
-        setLayout(new BorderLayout());
-//        JPanel left_panel = createVerticalBoxPanel();
-//        JPanel right_Panel = createVerticalBoxPanel();
-//        left_panel.setBackground(Color.black);
-//        left_panel.setPreferredSize(new Dimension(720,720));
-//        right_Panel.setPreferredSize(new Dimension(720,720));
-//        add(left_panel,BorderLayout.WEST);
-//        add(right_Panel,BorderLayout.EAST);
-//        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, left_panel, right_Panel);
-//        splitPane.setOneTouchExpandable(true);
-//        add(splitPane, BorderLayout.CENTER);
-        setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        panel=new JPanel(new BorderLayout());
+        panel.setBackground(Color.black);
+        panel.setMinimumSize(panel.getMinimumSize());
+
+        panel.setFocusable(true);
     }
 
     private void setLeft() {
-        leftPanel = new LeftPanel();
-        leftPanel.setBackground(Color.PINK);
-        add(leftPanel, BorderLayout.WEST);
+        leftPanel=new LeftPanel();
+        panel.add(leftPanel.panel, BorderLayout.WEST);
     }
 
     private void setRight() {
         rightPanel = new RightPanel();
-        rightPanel.setBackground(Color.black);
-        add(rightPanel, BorderLayout.EAST);
+        panel.add(rightPanel, BorderLayout.EAST);
     }
 
     private void setCenter() {
-        centerPanel=new CenterPanel();
-        add(centerPanel,BorderLayout.CENTER);
+        centerPanel = new CenterPanel();
+        panel.add(centerPanel, BorderLayout.CENTER);
     }
 
     private void setTop() {
         upperPanel = new UpperPanel();
-        add(upperPanel,BorderLayout.PAGE_START);
+        panel.add(upperPanel.panel, BorderLayout.PAGE_START);
+    }
+
+    private void setBottom() {
         JCheckBox toggleDnD = new JCheckBox("Turn on Drag and Drop");
-        add(toggleDnD, BorderLayout.PAGE_END);
+        panel.add(toggleDnD, BorderLayout.PAGE_END);
     }
 
-    protected JPanel createVerticalBoxPanel() {
-        JPanel p = new JPanel();
-        p.setLayout(new BoxLayout(p, BoxLayout.PAGE_AXIS));
-        p.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
-        return p;
-    }
-
-    private void displayDropLocation(final String string) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                JOptionPane.showMessageDialog(null, string);
-            }
-        });
-    }
 
     public Display() {
         EventQueue.invokeLater(this);
@@ -81,6 +62,7 @@ public class Display extends JPanel implements Runnable, MouseListener, ActionLi
     public void run() {
         setFrame();
         setPanel();
+        tooltipSetup();
         setTop();
         setLeft();
         setCenter();
@@ -88,44 +70,25 @@ public class Display extends JPanel implements Runnable, MouseListener, ActionLi
         start();
     }
 
+    private void tooltipSetup() {
+        UIManager.put("ToolTip.background", Color.white);
+        UIManager.put("ToolTip.foreground", Color.BLACK);
+        UIManager.put("ToolTip.font", new Font(_Win.getFont(), Font.PLAIN, _Win.scaleY(12)));
+    }
+
 
     public void setFrame() {
         frame = new JFrame(_Win.getTitle());
+        frame.setMinimumSize(_Win.getMinimumSize());
+        frame.setPreferredSize(_Win.init(800,800));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public void start() {
-        this.setOpaque(true);
-        frame.setContentPane(this);
+        panel.setOpaque(true);
+        frame.setContentPane(panel);
         frame.pack();
         frame.setVisible(true);
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
-    public void actionPerformed(ActionEvent e) {
-
-    }
 }

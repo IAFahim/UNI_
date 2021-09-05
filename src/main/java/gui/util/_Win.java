@@ -16,9 +16,23 @@ public final class _Win {
     private static String font = "Segoe UI";
     private final static File file = new File("src/main/java/data/db/win.json");
     private static boolean shouldSave = false;
-    private static final JSONObject map = new JSONObject(new LinkedHashMap<>());
+    private static JSONObject map;
     private static int x, y, height, width;
 
+    public static Color selected_color_for_label=Color.black;
+    public static Color unSelected_color_for_label=new Color(119,119,119);
+    public static Color light_mode_color_panel_backGround=new Color(245,245,245);
+    public static Color light_mode_color_frame_backGround=new Color(228,228,228);
+    public static Color unSelected_color_for_button =new Color(224,240,250);
+
+    public _Win(){
+        map= new JSONObject();
+        if(!load()){
+            firstLoad();
+        }
+    }
+
+    public static Dimension minimumSize;
     public static boolean load() {
         if(!Json.load(file, map)){
             return false;
@@ -32,6 +46,32 @@ public final class _Win {
         return true;
     }
 
+    public void firstLoad() {
+        Dimension dimension;
+        dimension = getScreenWindowSize();
+        _Win.setTitle("Anonymous");
+        _Win.setRectangle(dimension.width/2,dimension.height/2,dimension.width,dimension.height);
+        _Win.setIsFullScreen(true);
+        _Win.setFont("Segoe UI");
+        save();
+    }
+
+    public Dimension getScreenWindowSize() {
+        GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice[] graphicsDevices = graphicsEnvironment.getScreenDevices();
+        Dimension d = new Dimension();
+        Taskbar taskbar=Taskbar.getTaskbar();
+        System.out.println(taskbar);
+        for (GraphicsDevice graphicsDevice : graphicsDevices) {
+            Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(graphicsDevice.getConfigurations()[0]);
+            if (d.width < graphicsDevice.getDisplayMode().getWidth()) {
+                d.width = graphicsDevice.getDisplayMode().getWidth() - (insets.left + insets.right);
+                d.height = graphicsDevice.getDisplayMode().getHeight() - (insets.top + insets.bottom);
+            }
+        }
+
+        return d;
+    }
 
     public static boolean save() {
         return Json.save(map, file);
@@ -145,15 +185,22 @@ public final class _Win {
 
     public static int scaleX(double x) {
         if (x != 0) {
-            return (int) ((_Win.height * (x / xFix)));
+            return (int) ((_Win.width * (x / xFix)));
         }
         return 0;
     }
 
     public static int scaleY(double y) {
         if (y != 0) {
-            return (int) ((_Win.getWidth() * (y / yFix)));
+            return (int) ((_Win.height * (y / yFix)));
         }
         return 0;
+    }
+
+    public static Dimension getMinimumSize() {
+        if(minimumSize==null){
+           minimumSize=new Dimension(scaleX(640),scaleY(520));
+        }
+        return minimumSize;
     }
 }

@@ -8,8 +8,8 @@ import java.awt.*;
 
 public class CenterPanel extends JPanel {
     public CenterPanel() {
-        setPreferredSize(_Win.init(1150,1031));
-        setBackground(new Color(255, 255, 255));
+        setBackground(_Win.light_mode_color_frame_backGround);
+        setPreferredSize(_Win.init(1240,1035));
     }
 
 }

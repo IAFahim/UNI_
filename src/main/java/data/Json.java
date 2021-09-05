@@ -33,7 +33,7 @@ public final class Json {
 
 
     public static boolean load(File file, JSONObject map) {
-        boolean exist = file.isFile() && file.length() < 4;
+        boolean exist = file.isFile() && file.length() > 4;
         if (!exist) {
             return false;
         }
