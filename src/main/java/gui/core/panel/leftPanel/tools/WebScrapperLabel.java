@@ -4,12 +4,14 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-public class WebScrapperLabel extends JLabel {
+public final class WebScrapperLabel {
+    public JLabel label;
     public WebScrapperLabel(){
-        setIcon(new ImageIcon("src/main/resources/ic_WebScrapper.png"));
-        setHorizontalAlignment(SwingConstants.CENTER);
+        label=new JLabel();
+        label.setIcon(new ImageIcon("src/main/resources/ic_WebScrapper.png"));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
         Border margin = new EmptyBorder(10,0,0,0);
-        setBorder(margin);
-        setToolTipText(getText() + " (Ctrl + " + 0 + ")");
+        label.setBorder(margin);
+        label.setToolTipText(label.getText() + " (Ctrl + " + 0 + ")");
     }
 }

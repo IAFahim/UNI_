@@ -22,66 +22,75 @@ public class UpperPanel implements MouseListener {
     public LoginLabel loginLabel;
 
     public UpperPanel() {
-        panel=new JPanel(new BorderLayout());
+        panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(1920, 43));
         panel.setBackground(_Win.light_mode_color_panel_backGround);
 
-        panel_right=new JPanel();
+        panel_right = new JPanel();
         panel_left = new JPanel();
 
-        loginLabel=new LoginLabel(false);
-        inti(loginLabel.label);
+        loginLabel = new LoginLabel(false);
+        loginLabel.label.setHorizontalAlignment(SwingConstants.CENTER);
+        loginLabel.label.setPreferredSize(new Dimension(100, 30));
+        loginLabel.label.setFont(new Font(_Win.getFont(), Font.PLAIN, (18)));
+        loginLabel.label.addMouseListener(this);
+
         panel_right.add(loginLabel.label);
 
         dataLabel = new DataLabel(true);
         playGroundLabel = new PlayGroundLabel(false);
         shareLabel = new ShareLabel(false);
         panel_left.setBackground(_Win.light_mode_color_panel_backGround);
-        addToPanel(dataLabel.label, playGroundLabel.label, shareLabel.label);
+        panel_left.add(dataLabel.label);
+        dataLabel.label.setHorizontalAlignment(SwingConstants.CENTER);
+        dataLabel.label.setPreferredSize(new Dimension(100, 30));
+        dataLabel.label.setFont(new Font(_Win.getFont(), Font.PLAIN, (18)));
+        dataLabel.label.addMouseListener(this);
+
+
+        panel_left.add(playGroundLabel.label);
+        playGroundLabel.label.setHorizontalAlignment(SwingConstants.CENTER);
+        playGroundLabel.label.setPreferredSize(new Dimension(100, 30));
+        playGroundLabel.label.setFont(new Font(_Win.getFont(), Font.PLAIN, (18)));
+        playGroundLabel.label.addMouseListener(this);
+
+        panel_left.add(shareLabel.label);
+        shareLabel.label.setHorizontalAlignment(SwingConstants.CENTER);
+        shareLabel.label.setPreferredSize(new Dimension(100, 30));
+        shareLabel.label.setFont(new Font(_Win.getFont(), Font.PLAIN, (18)));
+        shareLabel.label.addMouseListener(this);
+
         panel.add(panel_left, BorderLayout.WEST);
-        panel.add(panel_right,BorderLayout.EAST);
+        panel.add(panel_right, BorderLayout.EAST);
+
     }
 
-    private void addToPanel(JLabel... jLabels) {
-        for (int i = 0; i < jLabels.length; i++) {
-            inti(jLabels[i]);
-            panel_left.add(jLabels[i]);
-        }
-    }
 
-    public void inti(JLabel jLabel) {
-        jLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        jLabel.setPreferredSize(new Dimension(100, 30));
-        jLabel.setFont(new Font(_Win.getFont(), Font.PLAIN, (18)));
-        jLabel.addMouseListener(this);
-    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if(e.getSource().getClass()==dataLabel.label.getClass()){
-            dataLabel.label.setForeground(_Win.selected_color_for_label);
-        }else{
-            dataLabel.label.setForeground(_Win.unSelected_color_for_label);
-        }
 
-        if(e.getSource().getClass()==playGroundLabel.getClass()){
-            playGroundLabel.label.setForeground(_Win.selected_color_for_label);
-        }else{
-            playGroundLabel.label.setForeground(_Win.unSelected_color_for_label);
-        }
-
-        if(e.getSource().getClass()==shareLabel.getClass()){
-            shareLabel.label.setForeground(_Win.selected_color_for_label);
-
-        }else {
-            shareLabel.label.setForeground(_Win.unSelected_color_for_label);
-
-        }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
+        if (e.getSource() == dataLabel.label) {
+            dataLabel.label.setForeground(_Win.selected_color_for_label);
+            playGroundLabel.label.setForeground(_Win.unSelected_color_for_label);
+            shareLabel.label.setForeground(_Win.unSelected_color_for_label);
+        }
 
+        if (e.getSource()== playGroundLabel.label) {
+            playGroundLabel.label.setForeground(_Win.selected_color_for_label);
+            dataLabel.label.setForeground(_Win.unSelected_color_for_label);
+            shareLabel.label.setForeground(_Win.unSelected_color_for_label);
+        }
+
+        if (e.getSource() == shareLabel.label) {
+            shareLabel.label.setForeground(_Win.selected_color_for_label);
+            dataLabel.label.setForeground(_Win.unSelected_color_for_label);
+            playGroundLabel.label.setForeground(_Win.unSelected_color_for_label);
+        }
     }
 
     @Override

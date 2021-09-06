@@ -1,16 +1,21 @@
 package gui.core.panel.leftPanel.threePartPanel;
 
 import gui.Display;
+import gui.core.panel.leftPanel.tools.WebScrapperLabel;
 import gui.util._Win;
+import webScraper.WebScraper;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import static gui.util._Win.*;
 
-public class IconTextFieldIconIconIconPanel {
+public class IconTextFieldIconIconIconPanel implements MouseListener {
     public JTextField textField;
     public JLabel type;
     public JLabel hide;
@@ -46,12 +51,13 @@ public class IconTextFieldIconIconIconPanel {
 
     public void setTextField() {
         textField = new JTextField("None");
-//        textField.setSize(init(150,40));
         textField.setPreferredSize(new Dimension(125,40));
         textField.setBorder(null);
         textField.setBackground(light_mode_color_panel_backGround);
         textField.setFont(new Font(_Win.getFont(), Font.PLAIN, (14)));
+        textField.setFocusable(false);
         panel.add(textField);
+
     }
 
     public void selectForExport() {
@@ -60,7 +66,7 @@ public class IconTextFieldIconIconIconPanel {
         export.setIcon(ii);
         Border margin = new EmptyBorder(0, (5),0,0);
         export.setBorder(margin);
-        export.setToolTipText( "Export (Shift + E)");
+        export.setToolTipText( "Export (Left-mouse-click)");
         panel.add(export);
     }
 
@@ -71,6 +77,7 @@ public class IconTextFieldIconIconIconPanel {
         Border margin = new EmptyBorder(0, (5),0,0);
         delete.setBorder(margin);
         delete.setToolTipText("Delete (Del)");
+        delete.addMouseListener(this);
         panel.add(delete,BorderLayout.EAST);
     }
 
@@ -82,5 +89,34 @@ public class IconTextFieldIconIconIconPanel {
         disable.setBorder(margin);
         disable.setToolTipText("Disable (Ctrl + D)");
         panel.add(disable,BorderLayout.EAST);
+    }
+
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if(e.getSource().getClass()==delete.getClass()){
+            System.out.println("delete");
+            panel.setVisible(false);
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }

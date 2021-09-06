@@ -8,6 +8,8 @@ import gui.util._Win;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 public class LeftPanel {
@@ -19,7 +21,7 @@ public class LeftPanel {
     public IconTextFieldIconPanel threePartPanel;
 
     public LeftPanel() {
-        panel=new JPanel();
+        panel = new JPanel();
         panel.setLayout(new BorderLayout());
         setPanel_left();
         setPanel_right();
@@ -33,7 +35,7 @@ public class LeftPanel {
         webScrapperLabel = new WebScrapperLabel();
         panel_left = new JPanel(new BorderLayout());
         panel_left.setBackground(_Win.light_mode_color_panel_backGround);
-        panel_left.add(webScrapperLabel, BorderLayout.PAGE_START);
+        panel_left.add(webScrapperLabel.label, BorderLayout.PAGE_START);
         panel_left.setPreferredSize(new Dimension(50, 1036));
         panel.add(panel_left, BorderLayout.WEST);
     }
@@ -52,21 +54,21 @@ public class LeftPanel {
         threePartPanel = new IconTextFieldIconPanel();
         panel_right.add(threePartPanel.panel, BorderLayout.PAGE_START);
     }
+
     public ArrayList<IconTextFieldIconIconIconPanel> button;
+
     private void setPanel_right_down() {
-        VerticalFlowLayout verticalFlowLayout=new VerticalFlowLayout();
+        VerticalFlowLayout verticalFlowLayout = new VerticalFlowLayout();
         verticalFlowLayout.setVgap(2);
         verticalFlowLayout.setHgap(0);
         panel_right_down = new JPanel(verticalFlowLayout);
-        button=new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            IconTextFieldIconIconIconPanel iconTextFieldIconIconIconPanel=new IconTextFieldIconIconIconPanel();
-            button.add(iconTextFieldIconIconIconPanel);
-            panel_right_down.add(iconTextFieldIconIconIconPanel.panel);
-        }
-        JScrollPane jScrollPane=new JScrollPane(panel_right_down);
+        button = new ArrayList<>();
+        JScrollPane jScrollPane = new JScrollPane(panel_right_down);
+        jScrollPane.setPreferredSize(new Dimension(310,900));
         jScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        panel_right.add(jScrollPane,BorderLayout.WEST);
+
+        panel_right.add(jScrollPane, BorderLayout.WEST);
     }
+
 }

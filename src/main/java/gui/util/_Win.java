@@ -24,8 +24,8 @@ public final class _Win {
     public static Font mediumFont = new Font(font, Font.PLAIN, 20);
     public static Font largeFont = new Font(font, Font.PLAIN, 22);
 
-    public static Color selected_color_for_label = Color.black;
-    public static Color unSelected_color_for_label = new Color(119, 119, 119);
+    public static Color selected_color_for_label = new Color(84,84,84);
+    public static Color unSelected_color_for_label = new Color(152, 152, 152);
     public static Color light_mode_color_panel_backGround = new Color(245, 245, 245);
     public static Color light_mode_color_frame_backGround = new Color(228, 228, 228);
     public static Color unSelected_color_for_button = new Color(224, 240, 250);

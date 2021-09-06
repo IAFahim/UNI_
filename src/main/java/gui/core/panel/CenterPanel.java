@@ -3,6 +3,12 @@ package gui.core.panel;
 
 import gui.core.layout.VerticalFlowLayout;
 import gui.util._Win;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.parser.Tag;
+import org.jsoup.select.Elements;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -10,68 +16,113 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseWheelEvent;
+import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static gui.util._Win.light_mode_color_panel_backGround;
 import static gui.util._Win.smallFont;
 
-public class CenterPanel implements DocumentListener {
+public class CenterPanel implements MouseListener {
     public JTextField textField;
     public JPanel panel;
     public String textFieldString;
+
     public CenterPanel() {
-        panel=new MainPanel();
+        panel = new MainPanel();
         panel.setLayout(new BorderLayout());
-        panel.setSize(new Dimension(1272,1035));
+        panel.setSize(new Dimension(1272, 1035));
         panel.setBackground(_Win.light_mode_color_frame_backGround);
 
-        textFieldString ="url://";
+        textFieldString = "https://";
         textField = new JTextField();
         textField = new JTextField(textFieldString);
         textField.setForeground(Color.GRAY);
-        textField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (textField.getText().equals(textFieldString)) {
-                    textField.setText("");
-                    textField.setForeground(Color.BLACK);
-                }
-            }
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (textField.getText().isEmpty()) {
-                    textField.setForeground(Color.GRAY);
-                    textField.setText("Search");
-                }
-            }
-        });
-        textField.getDocument().addDocumentListener(this);
-        textField.setSize(new Dimension(720,45));
-        textField.setBorder(new EmptyBorder(5,5,5,5));
+        textField.addMouseListener(this);
+        textField.setSize(new Dimension(720, 45));
+        textField.setBorder(new EmptyBorder(5, 5, 5, 5));
         textField.setBackground(Color.WHITE);
         textField.setFont(_Win.largeFont);
-        panel.add(textField,BorderLayout.PAGE_START);
+        panel.add(textField, BorderLayout.PAGE_START);
+    }
+
+    Map<String, HashSet<String>> map;
+
+    public void UpdateText() {
+        SwingWorker swingWorker = new SwingWorker<Boolean, String>() {
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                Connection connection = Jsoup.connect(textField.getText()).userAgent("Mozilla/5.0");
+                StringBuilder sb = new StringBuilder();
+                map=new LinkedHashMap<>();
+                Document document = connection.get();
+
+                Elements para= document.getElementsByTag("p");
+                HashSet<String> paraSet=new LinkedHashSet<>();
+                for (Element e : para) {
+                    paraSet.add(e.text());
+                }
+                map.put("Text",paraSet);
+
+                return true;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    boolean status = get();
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+
+                textField.setText("");
+            }
+        };
+        try {
+            if (textField.getText().length() > 9) {
+                URL url = new URL(textField.getText());
+                swingWorker.execute();
+            }
+        } catch (MalformedURLException ignored) {
+        }
     }
 
     @Override
-    public void insertUpdate(DocumentEvent e) {
+    public void mouseClicked(MouseEvent e) {
+        if (e.getSource() == textField) {
+            textField.selectAll();
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if (e.getSource() == textField) {
+            textField.selectAll();
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
 
     }
 
     @Override
-    public void removeUpdate(DocumentEvent e) {
+    public void mouseEntered(MouseEvent e) {
 
     }
 
     @Override
-    public void changedUpdate(DocumentEvent e) {
-
+    public void mouseExited(MouseEvent e) {
+        if (e.getSource() == textField) {
+            UpdateText();
+        }
     }
+
 
     public class MainPanel extends JPanel {
 
