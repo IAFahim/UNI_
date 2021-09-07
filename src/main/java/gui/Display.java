@@ -59,6 +59,13 @@ public final class Display implements Runnable {
         EventQueue.invokeLater(this);
     }
 
+    public void setSplit(){
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+                leftPanel.panel, rightPanel.panel);
+        splitPane.setOneTouchExpandable(true);
+        panel.add(splitPane, BorderLayout.CENTER);
+    }
+
     public void run() {
         setFrame();
         setPanel();
@@ -67,6 +74,7 @@ public final class Display implements Runnable {
         setLeft();
         setCenter();
         setRight();
+//        setSplit();
         start();
     }
 

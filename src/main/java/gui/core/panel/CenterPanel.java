@@ -1,7 +1,11 @@
 package gui.core.panel;
 
 
+import gui.Display;
+import gui.core.button.YesButton;
+import gui.core.effect.DropShadowBorder;
 import gui.core.layout.VerticalFlowLayout;
+import gui.core.panel.leftPanel.threePartPanel.IconTextFieldIconIconIconPanel;
 import gui.util._Win;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -9,6 +13,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
+import webScraper.WebScraper;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -32,6 +37,7 @@ public class CenterPanel implements MouseListener {
     public JTextField textField;
     public JPanel panel;
     public String textFieldString;
+    public YesButton yesButton;
 
     public CenterPanel() {
         panel = new MainPanel();
@@ -44,12 +50,20 @@ public class CenterPanel implements MouseListener {
         textField = new JTextField(textFieldString);
         textField.setForeground(Color.GRAY);
         textField.addMouseListener(this);
-        textField.setSize(new Dimension(720, 45));
-        textField.setBorder(new EmptyBorder(5, 5, 5, 5));
+        textField.setPreferredSize(new Dimension(720, 45));
+//        textField.setBorder(new EmptyBorder(5, 5, 5, 5));
+        textField.setBorder(new DropShadowBorder());
         textField.setBackground(Color.WHITE);
         textField.setFont(_Win.largeFont);
+
+
+        textArea = new TextArea();
+        panel.add(textArea, BorderLayout.CENTER);
+
         panel.add(textField, BorderLayout.PAGE_START);
     }
+
+    public TextArea textArea;
 
     Map<String, HashSet<String>> map;
 
@@ -57,18 +71,24 @@ public class CenterPanel implements MouseListener {
         SwingWorker swingWorker = new SwingWorker<Boolean, String>() {
             @Override
             protected Boolean doInBackground() throws Exception {
-                Connection connection = Jsoup.connect(textField.getText()).userAgent("Mozilla/5.0");
-                StringBuilder sb = new StringBuilder();
-                map=new LinkedHashMap<>();
-                Document document = connection.get();
+                String url = textField.getText();
+                WebScraper.run(url);
+                Map<String, LinkedHashSet<String>> map = WebScraper.map;
+                boolean any = false;
 
-                Elements para= document.getElementsByTag("p");
-                HashSet<String> paraSet=new LinkedHashSet<>();
-                for (Element e : para) {
-                    paraSet.add(e.text());
+                for (String s : map.keySet()) {
+                    for (String x : map.get(s)) {
+                        System.out.println(s+" "+x);
+                        IconTextFieldIconIconIconPanel button = new IconTextFieldIconIconIconPanel(s,x);
+                        Display.leftPanel.button.add(button);
+                        Display.leftPanel.panel_right_down.add(button.panel);
+                    }
+                    any = true;
                 }
-                map.put("Text",paraSet);
-
+                if (any) {
+                    Display.leftPanel.panel_right_down.revalidate();
+                    Display.leftPanel.jScrollPane.revalidate();
+                }
                 return true;
             }
 

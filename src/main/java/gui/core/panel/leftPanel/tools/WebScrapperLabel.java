@@ -3,6 +3,7 @@ package gui.core.panel.leftPanel.tools;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import java.awt.image.BufferedImage;
 
 public final class WebScrapperLabel {
     public JLabel label;

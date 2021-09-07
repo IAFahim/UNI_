@@ -11,8 +11,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class WebScraper {
-    static Map<String, LinkedHashSet<String>> map;
+public final class WebScraper {
+    public static Map<String, LinkedHashSet<String>> map;
+    public static ArrayList<Pair> ranking;
 
     static class Pair implements Comparable<Pair> {
         int first;
@@ -32,10 +33,7 @@ public class WebScraper {
         }
     }
 
-    public static void main(String[] args) {
-
-        String url = "https://readcomiconline.li/Comic/Artful-Daggers/Issue-1?id=188033#9";
-
+    public static void run(String url) {
 
         Connection connect = Jsoup.connect(url).userAgent("Mozilla/5.0");
         Document document = null;
@@ -57,7 +55,7 @@ public class WebScraper {
         }
         LinkedHashSet link = map.get("Link");
         if (link != null) {
-            ArrayList<Pair> ranking = new ArrayList<>();
+            ranking = new ArrayList<>();
             for (Object s : link) {
                 String str = (String) s;
                 Pair pair = new Pair();
@@ -69,12 +67,7 @@ public class WebScraper {
                 }
                 ranking.add(pair);
             }
-
-
             Collections.sort(ranking);
-            for (int i = 0; i < ranking.size(); i++) {
-                System.out.println(ranking.get(i));
-            }
         }
     }
 

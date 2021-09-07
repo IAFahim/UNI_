@@ -8,7 +8,10 @@ import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -100,9 +103,20 @@ public final class QRCode {
     }
 
 
-    private static BufferedImage createQR(String data, String charset, Map<EncodeHintType, ErrorCorrectionLevel> hashMap, int width, int height) throws UnsupportedEncodingException, WriterException {
+    public static BufferedImage createQR(String data, String charset, Map<EncodeHintType, ErrorCorrectionLevel> hashMap, int width, int height) throws UnsupportedEncodingException, WriterException {
         BitMatrix matrix = new MultiFormatWriter().encode(new String(data.getBytes(charset), charset), BarcodeFormat.QR_CODE, width, height);
         return MatrixToImageWriter.toBufferedImage(matrix);
+
+    }
+
+    public static void createQR(String data, int width, int height,String path) throws IOException, WriterException {
+        BitMatrix matrix = new MultiFormatWriter().encode(new String(data.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8), BarcodeFormat.QR_CODE, width, height);
+        MatrixToImageWriter.writeToPath(matrix,"png",new File(path).toPath());
+    }
+
+    public static void createQR(String data, String charset, Map<EncodeHintType, ErrorCorrectionLevel> hashMap, int width, int height,String path) throws IOException, WriterException {
+        BitMatrix matrix = new MultiFormatWriter().encode(new String(data.getBytes(charset), charset), BarcodeFormat.QR_CODE, width, height);
+        MatrixToImageWriter.writeToPath(matrix,"png",new File(path).toPath());
     }
 
 
