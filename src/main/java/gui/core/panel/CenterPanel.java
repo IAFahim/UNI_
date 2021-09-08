@@ -4,36 +4,21 @@ package gui.core.panel;
 import gui.Display;
 import gui.core.button.YesButton;
 import gui.core.effect.DropShadowBorder;
-import gui.core.layout.VerticalFlowLayout;
 import gui.core.panel.leftPanel.threePartPanel.IconTextFieldIconIconIconPanel;
 import gui.util._Win;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.parser.Tag;
-import org.jsoup.select.Elements;
 import webScraper.WebScraper;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Path2D;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import static gui.util._Win.light_mode_color_panel_backGround;
-import static gui.util._Win.smallFont;
-
-public class CenterPanel implements MouseListener {
+public class CenterPanel implements MouseListener, ActionListener {
     public JTextField textField;
     public JPanel panel;
     public String textFieldString;
@@ -50,6 +35,7 @@ public class CenterPanel implements MouseListener {
         textField = new JTextField(textFieldString);
         textField.setForeground(Color.GRAY);
         textField.addMouseListener(this);
+        textField.addActionListener(this);
         textField.setPreferredSize(new Dimension(720, 45));
 //        textField.setBorder(new EmptyBorder(5, 5, 5, 5));
         textField.setBorder(new DropShadowBorder());
@@ -57,30 +43,34 @@ public class CenterPanel implements MouseListener {
         textField.setFont(_Win.largeFont);
 
 
-        textArea = new TextArea();
+        textArea = new JTextArea();
         panel.add(textArea, BorderLayout.CENTER);
 
         panel.add(textField, BorderLayout.PAGE_START);
     }
 
-    public TextArea textArea;
+    public JTextArea textArea;
 
     Map<String, HashSet<String>> map;
 
-    public void UpdateText() {
+    public void updateText() {
         SwingWorker swingWorker = new SwingWorker<Boolean, String>() {
             @Override
             protected Boolean doInBackground() throws Exception {
                 String url = textField.getText();
-                WebScraper.run(url);
-                Map<String, LinkedHashSet<String>> map = WebScraper.map;
+                Map<String, LinkedHashSet<String>> map =WebScraper.run(url);
                 boolean any = false;
-
+                if(WebScraper.getDocument()!=null){
+                    String str=(WebScraper.getAllText(WebScraper.getDocument()));
+                    if(str.length()>0){
+                        IconTextFieldIconIconIconPanel button = new IconTextFieldIconIconIconPanel("Text",str);
+                        Display.leftPanel.panel_right_down.add(button.panel);
+                    }
+                }
                 for (String s : map.keySet()) {
                     for (String x : map.get(s)) {
                         System.out.println(s+" "+x);
                         IconTextFieldIconIconIconPanel button = new IconTextFieldIconIconIconPanel(s,x);
-                        Display.leftPanel.button.add(button);
                         Display.leftPanel.panel_right_down.add(button.panel);
                     }
                     any = true;
@@ -128,7 +118,9 @@ public class CenterPanel implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        if (e.getSource() == textField) {
+            textField.selectAll();
+        }
     }
 
     @Override
@@ -138,9 +130,12 @@ public class CenterPanel implements MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
-        if (e.getSource() == textField) {
-            UpdateText();
-        }
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        updateText();
     }
 
 

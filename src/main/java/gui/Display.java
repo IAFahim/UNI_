@@ -2,23 +2,17 @@ package gui;
 
 import gui.core.panel.leftPanel.LeftPanel;
 import gui.core.panel.CenterPanel;
-import gui.core.panel.rightPanel.RightPanel;
 import gui.core.panel.upperPanel.UpperPanel;
 import gui.util._Win;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public final class Display implements Runnable {
     public static JFrame frame;
     public static UpperPanel upperPanel;
     public static LeftPanel leftPanel;
     public static CenterPanel centerPanel;
-    public static RightPanel rightPanel;
     public static JPanel panel = new JPanel();
 
     public void setPanel() {
@@ -34,14 +28,10 @@ public final class Display implements Runnable {
         panel.add(leftPanel.panel, BorderLayout.WEST);
     }
 
-    private void setRight() {
-        rightPanel = new RightPanel();
-        panel.add(rightPanel.panel, BorderLayout.EAST);
-    }
 
     private void setCenter() {
         centerPanel = new CenterPanel();
-        panel.add(centerPanel.panel, BorderLayout.CENTER);
+        panel.add(centerPanel.panel, BorderLayout.EAST);
     }
 
     private void setTop() {
@@ -61,8 +51,9 @@ public final class Display implements Runnable {
 
     public void setSplit(){
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-                leftPanel.panel, rightPanel.panel);
+                leftPanel.panel, centerPanel.panel);
         splitPane.setOneTouchExpandable(true);
+        splitPane.setBorder(null);
         panel.add(splitPane, BorderLayout.CENTER);
     }
 
@@ -73,8 +64,7 @@ public final class Display implements Runnable {
         setTop();
         setLeft();
         setCenter();
-        setRight();
-//        setSplit();
+        setSplit();
         start();
     }
 

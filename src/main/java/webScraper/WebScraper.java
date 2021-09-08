@@ -12,8 +12,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class WebScraper {
-    public static Map<String, LinkedHashSet<String>> map;
-    public static ArrayList<Pair> ranking;
 
     static class Pair implements Comparable<Pair> {
         int first;
@@ -33,10 +31,16 @@ public final class WebScraper {
         }
     }
 
-    public static void run(String url) {
+    public static Document document = null;
 
+    public static Document getDocument() {
+        return document;
+    }
+
+    public static Map<String, LinkedHashSet<String>> run(String url) {
+        Map<String, LinkedHashSet<String>> map=new LinkedHashMap<>();
         Connection connect = Jsoup.connect(url).userAgent("Mozilla/5.0");
-        Document document = null;
+        document = null;
         try {
             document = connect.get();
         } catch (IOException e) {
@@ -45,45 +49,40 @@ public final class WebScraper {
 
         if (document != null) {
             map = new LinkedHashMap<>();
-            getAllText(document, map);
             getAllLink(document, map);
             getAllEmail(document, map);
         }
+        return map;
+    }
 
-        for (String str : map.keySet()) {
 
-        }
-        LinkedHashSet link = map.get("Link");
+    public static ArrayList<Pair> getLinkRanking(String url, Map<String, LinkedHashSet<String>> map){
+        ArrayList<Pair> ranking = null;
+        LinkedHashSet<String> link = map.get("Link");
         if (link != null) {
             ranking = new ArrayList<>();
-            for (Object s : link) {
-                String str = (String) s;
+            for (String s : link) {
                 Pair pair = new Pair();
-                pair.second = str;
-                int min = Math.min(str.length(), url.length());
+                pair.second = s;
+                int min = Math.min(s.length(), url.length());
                 for (int i = 0; i < min; i++) {
-                    if (str.charAt(i) == url.charAt(i)) pair.first++;
+                    if (s.charAt(i) == url.charAt(i)) pair.first++;
                     else break;
                 }
                 ranking.add(pair);
             }
             Collections.sort(ranking);
         }
+        return ranking;
     }
 
-    static void getAllText(Document document, Map map) {
-        HashSet<String> p = new LinkedHashSet<>();
-        Elements elements = document.getElementsByTag("p");
-        for (Element e : elements) {
-            p.add(e.text());
-        }
-        if (p.size() > 0) {
-            map.put("Text", p);
-        }
+    public static String getAllText(Document document) {
+        LinkedHashSet<String> p = new LinkedHashSet<>();
+        return document.select("p").text();
     }
 
-    static void getAllLink(Document document, Map map) {
-        HashSet<String> a = new LinkedHashSet<>();
+    static void getAllLink(Document document, Map<String, LinkedHashSet<String>> map) {
+        LinkedHashSet<String> a = new LinkedHashSet<>();
         Elements elements = document.select("a[href]");
         for (Element e : elements) {
             a.add(e.attr("abs:href"));
@@ -93,10 +92,10 @@ public final class WebScraper {
         }
     }
 
-    static void getAllEmail(Document document, Map map) {
+    static void getAllEmail(Document document, Map<String, LinkedHashSet<String>> map) {
         Pattern p = Pattern.compile("[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+");
         Matcher matcher = p.matcher(document.text());
-        HashSet<String> e = new LinkedHashSet<>();
+        LinkedHashSet<String> e = new LinkedHashSet<>();
         while (matcher.find()) {
             e.add(matcher.group());
         }
@@ -104,6 +103,10 @@ public final class WebScraper {
             map.put("Email", e);
         }
     }
+
+//    public static void main(String[] args) {
+//        WebScraper.run("");
+//    }
 
 
 }

@@ -11,7 +11,7 @@ public final class WebScrapperLabel {
         label=new JLabel();
         label.setIcon(new ImageIcon("src/main/resources/ic_WebScrapper.png"));
         label.setHorizontalAlignment(SwingConstants.CENTER);
-        Border margin = new EmptyBorder(10,0,0,0);
+        Border margin = new EmptyBorder(10,5,0,0);
         label.setBorder(margin);
         label.setToolTipText(label.getText() + " (Ctrl + " + 0 + ")");
     }

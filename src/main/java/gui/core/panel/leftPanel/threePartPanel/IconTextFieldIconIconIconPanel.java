@@ -1,5 +1,6 @@
 package gui.core.panel.leftPanel.threePartPanel;
 
+import gui.Display;
 import gui.util._Win;
 
 import javax.swing.*;
@@ -21,13 +22,13 @@ public class IconTextFieldIconIconIconPanel implements MouseListener {
     public JPanel panel;
 
     public IconTextFieldIconIconIconPanel(String type, String text) {
-        panel = new JPanel(new FlowLayout());
         FlowLayout flowLayout = new FlowLayout();
         flowLayout.setHgap(0);
         flowLayout.setVgap(0);
+        panel = new JPanel(flowLayout);
 
-        panel.setSize(new Dimension(310, 38));
-//        panel.setPreferredSize(_Win.init(300,38));
+//        panel.setSize(new Dimension(310, 38));
+        panel.setPreferredSize(new Dimension(452,38));
         panel.setBackground(light_mode_color_panel_backGround);
         setType(type);
         setTextField(text);
@@ -103,6 +104,7 @@ public class IconTextFieldIconIconIconPanel implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         if (e.getSource().getClass() == delete.getClass()) {
             System.out.println("delete");
+            Display.leftPanel.verticalFlowLayout.removeLayoutComponent(panel);
             panel.setVisible(false);
         }
     }
