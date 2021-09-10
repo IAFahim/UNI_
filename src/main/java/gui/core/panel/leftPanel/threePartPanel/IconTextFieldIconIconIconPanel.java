@@ -60,7 +60,7 @@ public class IconTextFieldIconIconIconPanel implements MouseListener {
         textField.setPreferredSize(new Dimension(125, 40));
         textField.setBorder(null);
         textField.setBackground(light_mode_color_panel_backGround);
-        textField.setFont(new Font(_Win.getFont(), Font.PLAIN, (14)));
+        textField.setFont(new Font("Arial Unicode MS", Font.PLAIN,15));
         textField.addMouseListener(this);
 //        textField.setFocusable(false);
         panel.add(textField);

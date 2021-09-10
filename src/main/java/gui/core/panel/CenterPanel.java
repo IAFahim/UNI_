@@ -11,6 +11,8 @@ import webScraper.WebScraper;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashSet;
@@ -52,7 +54,7 @@ public class CenterPanel implements MouseListener, ActionListener {
     public JTextArea textArea;
 
     Map<String, HashSet<String>> map;
-
+    FileWriter fileWriter;
     public void updateText() {
         SwingWorker swingWorker = new SwingWorker<Boolean, String>() {
             @Override
@@ -63,7 +65,11 @@ public class CenterPanel implements MouseListener, ActionListener {
                 if(WebScraper.getDocument()!=null){
                     String str=(WebScraper.getAllText(WebScraper.getDocument()));
                     if(str.length()>0){
+                        if(fileWriter==null){
+                            fileWriter=new FileWriter(new File("src/main/java/data/db/Story.txt"),true);
+                        }
                         IconTextFieldIconIconIconPanel button = new IconTextFieldIconIconIconPanel("Text",str);
+                        fileWriter.append(str).append('\n');
                         Display.leftPanel.panel_right_down.add(button.panel);
                     }
                 }
@@ -118,9 +124,7 @@ public class CenterPanel implements MouseListener, ActionListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (e.getSource() == textField) {
-            textField.selectAll();
-        }
+
     }
 
     @Override

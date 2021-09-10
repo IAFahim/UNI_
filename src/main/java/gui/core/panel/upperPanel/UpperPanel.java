@@ -98,7 +98,7 @@ public class UpperPanel implements MouseListener {
         if (e.getSource() == loginLabel.label) {
             jOptionPane = new JOptionPane();
             jOptionPane.setPreferredSize(new Dimension(300, 300));
-            String str = jOptionPane.showInputDialog(Display.frame, "Enter your Mail");
+            String str = jOptionPane.showInputDialog(Display.frame, "Enter your Email","Email");
             boolean valid = str != null && str.length() > 4 && str.contains("@");
             if (valid) {
                 SwingWorker<Boolean, Void> swingWorker = new SwingWorker<>() {

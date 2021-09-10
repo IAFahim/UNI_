@@ -9,7 +9,7 @@ import java.nio.ByteOrder;
 import java.nio.channels.FileChannel;
 
 public class Client {
-    static final public int MaximumSafeSize = 512, SentSize = 515;
+    static final public int DATA_RESERVE = 512, PACKAGE_RESERVE_SIZE=4 , SentSize = DATA_RESERVE;
     private final ByteBuffer byteBuffer;
     private DatagramSocket datagramSocket;
     public static String userID;
