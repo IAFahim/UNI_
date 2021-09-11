@@ -5,24 +5,23 @@ import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.channels.FileChannel;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 public final class PackageHandler {
 
-    final ThreadLocal<ByteBuffer> bufferTL = ThreadLocal.withInitial(() -> ByteBuffer.allocate(1<<13).order(ByteOrder.BIG_ENDIAN));
-    final ThreadLocal<DatagramSocket> socketTL;
-    final ThreadLocal<DatagramPacket> packetTL;
+    final ThreadLocal<ByteBuffer> byteBufferThreadLocal = ThreadLocal.withInitial(() -> ByteBuffer.allocateDirect(1<<13).order(ByteOrder.BIG_ENDIAN));
+    final ThreadLocal<DatagramSocket> datagramSocketThreadLocal;
+    final ThreadLocal<DatagramPacket> datagramPacketThreadLocal;
 
     PackageHandler(int port, InetAddress address){
-        socketTL = ThreadLocal.withInitial(() -> {
+        datagramSocketThreadLocal = ThreadLocal.withInitial(() -> {
             try {
                 return new DatagramSocket(port, address);
             } catch ( SocketException e) {
                 throw new AssertionError(e);
             }
         });
-        packetTL = ThreadLocal.withInitial(() -> new DatagramPacket(bufferTL.get().array(), 0, address, port));
+        datagramPacketThreadLocal = ThreadLocal.withInitial(() -> new DatagramPacket(byteBufferThreadLocal.get().array(), 0, address, port));
     }
 
     //TODO
@@ -32,7 +31,7 @@ public final class PackageHandler {
         if(fileChannel==null){
             return;
         }
-        ByteBuffer buffer= bufferTL.get();
+        ByteBuffer buffer= byteBufferThreadLocal.get();
         while (fileChannel.read(buffer)>0){
             System.out.println(Arrays.toString(buffer.array()));
         }

@@ -20,7 +20,7 @@ public class JsonStorage {
             .build();
 
     public static void main(String[] args) throws ExecutionException, InterruptedException, TimeoutException, IOException {
-        put();
+        delete();
     }
 
     public static void get() throws ExecutionException, InterruptedException, TimeoutException {
@@ -44,6 +44,22 @@ public class JsonStorage {
                 .uri(URI.create("https://jsonbase.com/UNI_/Fahim"))
                 .setHeader("User-Agent", "Java 11 HttpClient") // add request header
                 .header("Content-Type", "application/json")
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        // print status code
+        System.out.println(response.statusCode());
+
+        // print response body
+        System.out.println(response.body());
+    }
+
+    public static void delete() throws IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder()
+                .DELETE()
+                .uri(URI.create("https://jsonbase.com/UNI_/Fahim"))
+                .setHeader("User-Agent", "Java 11 HttpClient") // add request header
                 .build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());

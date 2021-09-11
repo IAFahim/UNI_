@@ -9,8 +9,10 @@ import java.nio.ByteOrder;
 import java.nio.channels.FileChannel;
 
 public class Client {
-    static final public int DATA_RESERVE = 512, PACKAGE_RESERVE_SIZE=4 , SentSize = DATA_RESERVE;
-    private final ByteBuffer byteBuffer;
+    static final byte SENDMAIL = 10;
+    static final public int PACKAGE_RESERVE_FOR_SIZE = 4, FROM_ID_SIZE = 4, TO_ID_SIZE = 4, DATA_RESERVE = 512, SENT_SIZE = DATA_RESERVE + PACKAGE_RESERVE_FOR_SIZE + FROM_ID_SIZE + TO_ID_SIZE;
+    private final ByteBuffer sendBuffer;
+    private final ByteBuffer receivedBuffer;
     private DatagramSocket datagramSocket;
     public static String userID;
     private final int port;
@@ -25,7 +27,8 @@ public class Client {
         this.port = port;
         this.userID = userID;
 
-        this.byteBuffer = ByteBuffer.allocateDirect(1 << 8).order(ByteOrder.BIG_ENDIAN);
+        this.sendBuffer = ByteBuffer.allocateDirect(SENT_SIZE).order(ByteOrder.BIG_ENDIAN);
+        this.receivedBuffer = ByteBuffer.allocateDirect(SENT_SIZE).order(ByteOrder.BIG_ENDIAN);
         connectionHistory = new ConnectionHistory();
     }
 
@@ -48,41 +51,12 @@ public class Client {
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public void Sendmail(String userName, String password, String email) {
+        sendBuffer.put(SENDMAIL);
+        if (Validate.userNameValidate(userName) && Validate.emailValidate(email) && Validate.passwordValidate(password)) {
+            Fragment.format(sendBuffer, userName, password, email);
+        }
+    }
 
 
 
