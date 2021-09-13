@@ -51,7 +51,7 @@ public class Client {
 
     }
 
-    public void Sendmail(String userName, String password, String email) {
+    public void Sendmail(String userName, String password, String email ) {
         sendBuffer.put(SENDMAIL);
         if (Validate.userNameValidate(userName) && Validate.emailValidate(email) && Validate.passwordValidate(password)) {
             Fragment.format(sendBuffer, userName, password, email);

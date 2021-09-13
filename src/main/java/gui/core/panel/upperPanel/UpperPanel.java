@@ -105,7 +105,6 @@ public class UpperPanel implements MouseListener {
                     @Override
                     protected Boolean doInBackground() throws Exception {
                         System.out.println(str);
-                        ServerMailHandler serverMailHandler = new ServerMailHandler();
                         String password = QRCode.makePassword(8, true, true, true);
                         String path = "src/main/resources/" + _Win.getTitle()+".png";
                         QRCode.createQR(password, 200, 200, path);

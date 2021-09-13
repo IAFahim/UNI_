@@ -1,6 +1,7 @@
 package gui.core.panel.leftPanel.threePartPanel;
 
 import gui.Display;
+import gui.core.effect.RoundedBorder;
 import gui.util._Win;
 
 import javax.swing.*;
@@ -28,8 +29,9 @@ public class IconTextFieldIconIconIconPanel implements MouseListener {
         panel = new JPanel(flowLayout);
 
 //        panel.setSize(new Dimension(310, 38));
-        panel.setPreferredSize(new Dimension(452,38));
+        panel.setPreferredSize(new Dimension(452, 38));
         panel.setBackground(light_mode_color_panel_backGround);
+        panel.addMouseListener(this);
         setType(type);
         setTextField(text);
         selectForExport();
@@ -51,7 +53,7 @@ public class IconTextFieldIconIconIconPanel implements MouseListener {
         type.setIcon(ii);
         Border margin = new EmptyBorder(0, 0, 0, (5));
         type.setBorder(margin);
-        type.setToolTipText("Rename (F2)");
+        type.setToolTipText("Rename (Right-mouse-click)");
         panel.add(type);
     }
 
@@ -60,12 +62,11 @@ public class IconTextFieldIconIconIconPanel implements MouseListener {
         textField.setPreferredSize(new Dimension(125, 40));
         textField.setBorder(null);
         textField.setBackground(light_mode_color_panel_backGround);
-        textField.setFont(new Font("Arial Unicode MS", Font.PLAIN,15));
+        textField.setFont(new Font("Arial Unicode MS", Font.PLAIN, 15));
         textField.addMouseListener(this);
 //        textField.setFocusable(false);
         panel.add(textField);
     }
-
 
 
     public void selectForExport() {
@@ -109,10 +110,27 @@ public class IconTextFieldIconIconIconPanel implements MouseListener {
         }
     }
 
+    public boolean selected = false;
+
     @Override
     public void mousePressed(MouseEvent e) {
-        if(e.getSource()==textField){
+        if (e.getSource() == textField && e.getButton() == MouseEvent.BUTTON1) {
             textField.selectAll();
+        }
+        if (e.getSource() == panel) {
+            if (e.getButton() == MouseEvent.BUTTON1) {
+                textField.selectAll();
+            }
+            if (e.getButton() == MouseEvent.BUTTON3) {
+                selected = !selected;
+                if (selected) {
+                    panel.setBackground(selected_color_for_button);
+                    textField.setBackground(selected_color_for_button);
+                } else {
+                    panel.setBackground(light_mode_color_panel_backGround);
+                    textField.setBackground(light_mode_color_panel_backGround);
+                }
+            }
         }
     }
 

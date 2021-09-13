@@ -28,7 +28,8 @@ public final class _Win {
     public static Color unSelected_color_for_label = new Color(152, 152, 152);
     public static Color light_mode_color_panel_backGround = new Color(245, 245, 245);
     public static Color light_mode_color_frame_backGround = new Color(228, 228, 228);
-    public static Color unSelected_color_for_button = new Color(224, 240, 250);
+    public static Color selected_color_for_button = new Color(224, 240, 250);
+    public static Color red_selected_color_for_button = new Color(254, 111, 97);
 
     public _Win() {
         map = new JSONObject();

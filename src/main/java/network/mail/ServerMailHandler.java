@@ -8,7 +8,7 @@ import java.net.URL;
 import java.util.Properties;
 
 public final class ServerMailHandler {
-    private static String password=null;
+    private static String password = null;
     private static String from = null;
     private static String host;
     private static Properties properties;
@@ -17,12 +17,12 @@ public final class ServerMailHandler {
     private static int port;
 
     public ServerMailHandler() {
-        if(from==null){
-        host = "smtp.gmail.com";
-        port = 587;
-        from = "no.reply.announcer.auth@gmail.com";
-        password = "KitKatFahim";
-        build();
+        if (from == null) {
+            host = "smtp.gmail.com";
+            port = 587;
+            from = "no.reply.announcer.auth@gmail.com";
+            password = "KitKatFahim";
+            build();
         }
     }
 
@@ -63,21 +63,21 @@ public final class ServerMailHandler {
         });
     }
 
-    public static void setAndSend(String to, String subject, String msg, String imagePath) {
+    public static void setAndSend(MailSendData mailSendData) throws MessagingException, IOException {
+        send(mailSendData);
+    }
+
+    public static void setAndSend(String to, String subject, String msg, String imagePath) throws MessagingException, IOException {
         send(new MailSendData(to, subject, msg, imagePath));
     }
 
-    public static void setAndSend(String to, String subject, String msg) {
+    public static void setAndSend(String to, String subject, String msg) throws MessagingException, IOException {
         setAndSend(to, subject, msg, null);
     }
 
-    public static void send(MailSendData data) {
-        try {
-            setMessage(data);
-            Transport.send(message);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public static void send(MailSendData data) throws MessagingException, IOException {
+        setMessage(data);
+        Transport.send(message);
     }
 
     private static void setMessage(MailSendData data) throws MessagingException, IOException {

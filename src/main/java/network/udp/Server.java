@@ -7,16 +7,14 @@ import java.net.SocketException;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.HashSet;
 
 public class Server implements Runnable {
     DatagramSocket datagramSocket;
     static final public int PACKAGE_RESERVE_FOR_SIZE = 4, FROM_ID_SIZE = 4, TO_ID_SIZE = 4, DATA_RESERVE = 512, RECEIVED_SIZE = DATA_RESERVE + PACKAGE_RESERVE_FOR_SIZE + FROM_ID_SIZE + TO_ID_SIZE;
-    ByteBuffer receivedBuffer;
-    ByteBuffer sendBuffer;
+    static final public int SMALL_SIZE=100;
 
     public Server(int port) {
-        receivedBuffer = ByteBuffer.allocateDirect(RECEIVED_SIZE).order(ByteOrder.BIG_ENDIAN);
-        sendBuffer = ByteBuffer.allocateDirect(RECEIVED_SIZE).order(ByteOrder.BIG_ENDIAN);
         try {
             datagramSocket = new DatagramSocket(port);
         } catch (SocketException e) {
@@ -27,13 +25,20 @@ public class Server implements Runnable {
     @Override
     public void run() {
         while (true) {
-            DatagramPacket datagramPacket = new DatagramPacket(receivedBuffer.array(),RECEIVED_SIZE);
+            byte[] bytes=new byte[SMALL_SIZE];
+            DatagramPacket datagramPacket = new DatagramPacket(bytes,SMALL_SIZE);
             try {
                 datagramSocket.receive(datagramPacket);
+                if(acceptMessageWithComplicatedLogic(bytes))
+                new Process(datagramPacket,PACKAGE_RESERVE_FOR_SIZE).start();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     }
+
+    private boolean acceptMessageWithComplicatedLogic(byte[] bytes){
+        return true;
+    }
+
 }
