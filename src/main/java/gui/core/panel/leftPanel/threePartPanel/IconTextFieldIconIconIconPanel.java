@@ -21,12 +21,11 @@ public class IconTextFieldIconIconIconPanel implements MouseListener {
     public JLabel delete;
     public JLabel disable;
     public JPanel panel;
+    public JPanel threeButtonPanel;
 
     public IconTextFieldIconIconIconPanel(String type, String text) {
-        FlowLayout flowLayout = new FlowLayout();
-        flowLayout.setHgap(0);
-        flowLayout.setVgap(0);
-        panel = new JPanel(flowLayout);
+        BorderLayout borderLayout = new BorderLayout();
+        panel = new JPanel(borderLayout);
 
 //        panel.setSize(new Dimension(310, 38));
         panel.setPreferredSize(new Dimension(452, 38));
@@ -34,9 +33,17 @@ public class IconTextFieldIconIconIconPanel implements MouseListener {
         panel.addMouseListener(this);
         setType(type);
         setTextField(text);
-        selectForExport();
-        setDelete();
-        setDisable();
+        setThreeButtonPanel();
+    }
+
+    public void setThreeButtonPanel() {
+        FlowLayout flowLayout = new FlowLayout();
+        threeButtonPanel = new JPanel(flowLayout);
+
+        selectForExport(threeButtonPanel);
+        setDelete(threeButtonPanel);
+        setDisable(threeButtonPanel);
+        panel.add(threeButtonPanel, BorderLayout.EAST);
     }
 
     public void setType(String WhatType) {
@@ -54,7 +61,7 @@ public class IconTextFieldIconIconIconPanel implements MouseListener {
         Border margin = new EmptyBorder(0, 0, 0, (5));
         type.setBorder(margin);
         type.setToolTipText("Rename (Right-mouse-click)");
-        panel.add(type);
+        panel.add(type,BorderLayout.WEST);
     }
 
     public void setTextField(String text) {
@@ -65,21 +72,21 @@ public class IconTextFieldIconIconIconPanel implements MouseListener {
         textField.setFont(new Font("Arial Unicode MS", Font.PLAIN, 15));
         textField.addMouseListener(this);
 //        textField.setFocusable(false);
-        panel.add(textField);
+        panel.add(textField,BorderLayout.CENTER);
     }
 
 
-    public void selectForExport() {
+    public void selectForExport(JPanel threeButtonPanel) {
         export = new JLabel();
         ImageIcon ii = new ImageIcon("src/main/resources/ic_export_16.png");
         export.setIcon(ii);
         Border margin = new EmptyBorder(0, (5), 0, 0);
         export.setBorder(margin);
         export.setToolTipText("Export (Left-mouse-click)");
-        panel.add(export);
+        threeButtonPanel.add(export);
     }
 
-    public void setDelete() {
+    public void setDelete(JPanel threeButtonPanel) {
         delete = new JLabel();
         ImageIcon ii = new ImageIcon("src/main/resources/ic_delete_16.png");
         delete.setIcon(ii);
@@ -87,17 +94,17 @@ public class IconTextFieldIconIconIconPanel implements MouseListener {
         delete.setBorder(margin);
         delete.setToolTipText("Delete (Del)");
         delete.addMouseListener(this);
-        panel.add(delete, BorderLayout.EAST);
+        threeButtonPanel.add(delete, BorderLayout.EAST);
     }
 
-    public void setDisable() {
+    public void setDisable(JPanel threeButtonPanel) {
         disable = new JLabel();
         ImageIcon ii = new ImageIcon("src/main/resources/ic_disable_16.png");
         disable.setIcon(ii);
         Border margin = new EmptyBorder(0, (5), 0, (20));
         disable.setBorder(margin);
         disable.setToolTipText("Disable (Ctrl + D)");
-        panel.add(disable, BorderLayout.EAST);
+        threeButtonPanel.add(disable, BorderLayout.EAST);
     }
 
 

@@ -23,6 +23,7 @@ public final class _Win {
     public static Font smallFont = new Font(font, Font.PLAIN, 15);
     public static Font mediumFont = new Font(font, Font.PLAIN, 20);
     public static Font largeFont = new Font(font, Font.PLAIN, 22);
+    public static int gapBetweenSmallLabel=5;
 
     public static Color selected_color_for_label = new Color(84,84,84);
     public static Color unSelected_color_for_label = new Color(152, 152, 152);

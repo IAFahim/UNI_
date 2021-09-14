@@ -8,10 +8,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import static gui.util._Win.*;
 
-public class IconTextFieldIconPanel implements DocumentListener {
+public class IconTextFieldIconPanel implements DocumentListener, MouseListener {
     public JTextField textField;
     public JLabel search;
     public JLabel close;
@@ -47,7 +49,9 @@ public class IconTextFieldIconPanel implements DocumentListener {
         textField.setBorder(null);
         textField.setBackground(light_mode_color_panel_backGround);
         textField.setFont(smallFont);
+        textField.addMouseListener(this);
         panel.add(textField,BorderLayout.CENTER);
+
     }
 
     public void setClose() {
@@ -76,5 +80,32 @@ public class IconTextFieldIconPanel implements DocumentListener {
     }
     void deleteButton(){
         textField.getText();
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if(e.getSource()==textField){
+            textField.selectAll();
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }

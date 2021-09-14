@@ -59,7 +59,7 @@ public class LeftPanel {
         panel_right.setPreferredSize(new Dimension(452, 1035));
         setPanel_right_up();
         setPanel_right_down();
-        panel.add(panel_right, BorderLayout.CENTER);
+        panel.add(panel_right, BorderLayout.EAST);
     }
 
     private void setPanel_right_up() {
@@ -78,10 +78,11 @@ public class LeftPanel {
         jScrollPane = new JScrollPane(panel_right_down);
         jScrollPane.setBorder(null);
         jScrollPane.setPreferredSize(new Dimension(452,990));
+        verticalFlowLayout.preferredLayoutSize(jScrollPane);
         jScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         jScrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        panel_right.add(jScrollPane, BorderLayout.WEST);
+        panel_right.add(jScrollPane, BorderLayout.CENTER);
     }
 
     public JScrollPane jScrollPane;

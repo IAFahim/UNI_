@@ -25,6 +25,8 @@ public class CenterPanel implements MouseListener, ActionListener {
     public JPanel panel;
     public String textFieldString;
     public YesButton yesButton;
+    public JTextArea textArea;
+    public JScrollPane scrollPane;
 
     public CenterPanel() {
         panel = new MainPanel();
@@ -46,17 +48,19 @@ public class CenterPanel implements MouseListener, ActionListener {
 
 
         textArea = new JTextArea();
-        panel.add(textArea, BorderLayout.CENTER);
+        scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(500, 450));
 
+        panel.add(scrollPane, BorderLayout.CENTER);
         panel.add(textField, BorderLayout.PAGE_START);
     }
 
-    public JTextArea textArea;
+
 
     Map<String, HashSet<String>> map;
     FileWriter fileWriter;
     public void updateText() {
-        SwingWorker swingWorker = new SwingWorker<Boolean, String>() {
+        SwingWorker<Boolean, String> swingWorker = new SwingWorker<>() {
             @Override
             protected Boolean doInBackground() throws Exception {
                 String url = textField.getText();
